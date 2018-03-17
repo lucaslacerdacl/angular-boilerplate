@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../shared/helpers/localStorage.service';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { RestService } from './rest.service';
@@ -9,7 +10,7 @@ describe('RestService', () => {
       imports: [
         HttpClientModule
       ],
-      providers: [RestService, HttpClient],
+      providers: [RestService, HttpClient, LocalStorageService],
     });
   });
 

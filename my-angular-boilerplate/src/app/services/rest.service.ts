@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../shared/helpers/localStorage.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -6,12 +7,16 @@ import { ValidationResultModel } from './validationResult.model';
 @Injectable()
 export class RestService<TModel> {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
 
   private getHeaders(): HttpHeaders {
     const headers = new HttpHeaders();
+    headers.append('Authorization', `Bearer ${this.localStorageService.getToken()}`);
+    headers.append('Ocp-Apim-Subscription-Key', environment.subscriptionKey);
+
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
+
     headers.append('Access-Control-Allow-Credentials', '*');
     headers.append('Access-Control-Allow-Origin', '*');
     headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
