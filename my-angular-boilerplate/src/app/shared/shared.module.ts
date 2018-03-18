@@ -1,3 +1,5 @@
+import { UnauthorizedResponseService } from './interceptors/unauthorizedResponse.interceptor';
+import { CheckConnectionService } from './interceptors/checkConnection.interceptor';
 import { LocalStorageService } from './helpers/localStorage.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -13,7 +15,9 @@ import { SetLoadingService } from './interceptors/setLoading.interceptor';
   providers: [
     AuthGuard,
     LocalStorageService,
-    { provide: HTTP_INTERCEPTORS, useClass: SetLoadingService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: CheckConnectionService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: SetLoadingService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedResponseService, multi: true }
   ]
 })
 export class SharedModule { }
