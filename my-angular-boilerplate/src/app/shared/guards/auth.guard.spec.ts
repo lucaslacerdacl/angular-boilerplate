@@ -16,14 +16,24 @@ describe('AuthGuard', () => {
   }));
 
   it('should not authorize', inject([AuthGuard, LocalStorageService], (guard: AuthGuard, localStorageService: LocalStorageService) => {
-    spyOn<LocalStorageService>(localStorageService, 'getToken').and.returnValue('');
-    spyOn<LocalStorageService>(localStorageService, 'getUserId').and.returnValue('');
+    const getTokenSpy = spyOn<LocalStorageService>(localStorageService, 'getToken').and.returnValue('');
     expect(guard.canActivate()).toBe(false);
+    expect(getTokenSpy).toHaveBeenCalled();
+  }));
+
+  it('should not authorize', inject([AuthGuard, LocalStorageService], (guard: AuthGuard, localStorageService: LocalStorageService) => {
+    const getTokenSpy = spyOn<LocalStorageService>(localStorageService, 'getToken').and.returnValue('31231213');
+    const getUserIdSpy = spyOn<LocalStorageService>(localStorageService, 'getUserId').and.returnValue('');
+    expect(guard.canActivate()).toBe(false);
+    expect(getTokenSpy).toHaveBeenCalled();
+    expect(getUserIdSpy).toHaveBeenCalled();
   }));
 
   it('should authorize', inject([AuthGuard, LocalStorageService], (guard: AuthGuard, localStorageService: LocalStorageService) => {
-    spyOn<LocalStorageService>(localStorageService, 'getToken').and.returnValue('123456');
-    spyOn<LocalStorageService>(localStorageService, 'getUserId').and.returnValue('147258369');
+    const getTokenSpy = spyOn<LocalStorageService>(localStorageService, 'getToken').and.returnValue('123456');
+    const getUserIdSpy = spyOn<LocalStorageService>(localStorageService, 'getUserId').and.returnValue('147258369');
     expect(guard.canActivate()).toBe(true);
+    expect(getTokenSpy).toHaveBeenCalled();
+    expect(getUserIdSpy).toHaveBeenCalled();
   }));
 });

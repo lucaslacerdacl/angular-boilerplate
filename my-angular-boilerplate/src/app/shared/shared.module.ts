@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthGuard } from './guards/auth.guard';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpErrorHandlerService } from './interceptors/httpErrorHandler.interceptor';
+import { SetLoadingService } from './interceptors/setLoading.interceptor';
 
 @NgModule({
   imports: [
@@ -13,7 +13,7 @@ import { HttpErrorHandlerService } from './interceptors/httpErrorHandler.interce
   providers: [
     AuthGuard,
     LocalStorageService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorHandlerService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: SetLoadingService, multi: true }
   ]
 })
 export class SharedModule { }
