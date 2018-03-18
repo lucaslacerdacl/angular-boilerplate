@@ -8,20 +8,16 @@ import 'rxjs/add/observable/throw';
 export class SetLoadingService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (navigator.onLine) {
-      if (req.headers.has('HideLoading')) {
-        console.error('HideLoading');
-        return next.handle(req);
-      } else {
-        console.log('ShowLoading');
-        return next.handle(req)
-        .finally(() => {
-          console.log('CloseLoading');
-        });
-      }
+    if (req.headers.has('HideLoading')) {
+      console.error('HideLoading');
+      return next.handle(req);
     } else {
-      return Observable.throw('Connection Error');
+      console.log('ShowLoading');
+      return next.handle(req)
+      .finally(() => {
+        console.log('CloseLoading');
+      });
     }
   }
-
 }
+

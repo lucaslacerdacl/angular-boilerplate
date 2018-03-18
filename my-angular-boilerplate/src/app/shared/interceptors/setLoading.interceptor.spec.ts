@@ -28,10 +28,8 @@ describe('SetLoadingService', () => {
     const next: any = { handle: (request: HttpRequest<any>) => {}};
     const requestMock = new HttpRequest('GET', '/test', { headers: new HttpHeaders().append('HideLoading', 'true') });
 
-    const navigatorSpy = spyOnProperty<Navigator>(navigator, 'onLine').and.returnValue(true);
     const showLoadingSpy = spyOn<Console>(console, 'error');
     service.intercept(requestMock, next);
-    expect(navigatorSpy).toHaveBeenCalled();
     expect(showLoadingSpy).toHaveBeenCalled();
   }));
 
@@ -42,18 +40,8 @@ describe('SetLoadingService', () => {
     };
     const requestMock = new HttpRequest('GET', '/test');
 
-    const navigatorSpy = spyOnProperty<Navigator>(navigator, 'onLine').and.returnValue(true);
     const showLoadingSpy = spyOn<Console>(console, 'log');
     service.intercept(requestMock, next);
-    expect(navigatorSpy).toHaveBeenCalled();
     expect(showLoadingSpy).toHaveBeenCalledTimes(2);
-  }));
-
-  it('should be offline', inject([SetLoadingService], (service: SetLoadingService) => {
-    const next: any = { handle: (request: HttpRequest<any>) => {}};
-    const requestMock = new HttpRequest('GET', '/test');
-
-    const navigatorSpy = spyOnProperty<Navigator>(navigator, 'onLine').and.returnValue(false);
-    expect(service.intercept(requestMock, next)).toEqual(Observable.throw('Connection Error'));
   }));
 });
