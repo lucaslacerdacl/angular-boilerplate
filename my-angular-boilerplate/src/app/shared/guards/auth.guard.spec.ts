@@ -15,13 +15,15 @@ describe('AuthGuard', () => {
     expect(guard).toBeTruthy();
   }));
 
-  it('should not authorize', inject([AuthGuard, LocalStorageService], (guard: AuthGuard, localStorageService: LocalStorageService) => {
+  // tslint:disable-next-line:max-line-length
+  it('should not authorize, null token', inject([AuthGuard, LocalStorageService], (guard: AuthGuard, localStorageService: LocalStorageService) => {
     const getTokenSpy = spyOn<LocalStorageService>(localStorageService, 'getToken').and.returnValue('');
     expect(guard.canActivate()).toBe(false);
     expect(getTokenSpy).toHaveBeenCalled();
   }));
 
-  it('should not authorize', inject([AuthGuard, LocalStorageService], (guard: AuthGuard, localStorageService: LocalStorageService) => {
+  // tslint:disable-next-line:max-line-length
+  it('should not authorize, null token and user id', inject([AuthGuard, LocalStorageService], (guard: AuthGuard, localStorageService: LocalStorageService) => {
     const getTokenSpy = spyOn<LocalStorageService>(localStorageService, 'getToken').and.returnValue('31231213');
     const getUserIdSpy = spyOn<LocalStorageService>(localStorageService, 'getUserId').and.returnValue('');
     expect(guard.canActivate()).toBe(false);
