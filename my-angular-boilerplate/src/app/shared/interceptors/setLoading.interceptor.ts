@@ -5,20 +5,20 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
-import { NotificationSwalService } from '../notification/implementations/notification.swal.service';
+
 @Injectable()
 export class SetLoadingService implements HttpInterceptor {
 
-  constructor(private notificationSwalService: NotificationSwalService) {}
+  constructor(@Inject('INotificationLoading') private _INotificationLoading: INotificationLoading) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.headers.has('HideLoading')) {
       return next.handle(req);
     } else {
-      this.notificationSwalService.openLoading();
+      this._INotificationLoading.openLoading();
       return next.handle(req)
       .finally(() => {
-        this.notificationSwalService.closeLoading();
+        this._INotificationLoading.closeLoading();
       });
     }
   }

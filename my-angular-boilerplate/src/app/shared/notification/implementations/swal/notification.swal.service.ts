@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { INotificationSuccess } from '../interfaces/INotificationSuccess';
-import { INotificationError } from '../interfaces/INotificationError';
-import { INotificationAlert } from '../interfaces/INotificationAlert';
-import { INotificationLoading } from '../interfaces/INotificationLoading';
-import { INotificationQuestion } from '../interfaces/INotificationQuestion';
-import { INotificationInfo } from '../interfaces/INotificationInfo';
+import { INotificationSuccess } from '../../interfaces/INotificationSuccess';
+import { INotificationError } from '../../interfaces/INotificationError';
+import { INotificationAlert } from '../../interfaces/INotificationAlert';
+import { INotificationLoading } from '../../interfaces/INotificationLoading';
+import { INotificationQuestion } from '../../interfaces/INotificationQuestion';
+import { INotificationInfo } from '../../interfaces/INotificationInfo';
 import swal from 'sweetalert2';
 
 @Injectable()

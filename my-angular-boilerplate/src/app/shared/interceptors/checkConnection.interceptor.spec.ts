@@ -8,13 +8,7 @@ import { ValidationResultModel } from '../../services/validationResult.model';
 describe('CheckConnectionService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CheckConnectionService,
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: CheckConnectionService,
-          multi: true
-        }
-      ]
+      providers: [CheckConnectionService]
     });
   });
 
