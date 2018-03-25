@@ -6,42 +6,42 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { SetLoadingService } from './setLoading.interceptor';
 import { HTTP_INTERCEPTORS, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { NotificationSwalService } from '../notification/implementations/notification.swal.service';
 
 describe('SetLoadingService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SetLoadingService,
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: SetLoadingService,
-          multi: true
-        }
+      providers: [
+        SetLoadingService,
+        NotificationSwalService
       ]
     });
   });
 
-  it('should be created SetLoadingService', inject([SetLoadingService], (service: SetLoadingService) => {
+  it('should be created SetLoadingService', inject([SetLoadingService, NotificationSwalService],
+    (service: SetLoadingService, notification: NotificationSwalService) => {
     expect(service).toBeTruthy();
   }));
 
-  it('should be hide loading', inject([SetLoadingService], (service: SetLoadingService) => {
+  it('should be hide loading', inject([SetLoadingService, NotificationSwalService],
+    (service: SetLoadingService, notification: NotificationSwalService) => {
     const next: any = { handle: (request: HttpRequest<any>) => {}};
     const requestMock = new HttpRequest('GET', '/test', { headers: new HttpHeaders().append('HideLoading', 'true') });
-
-    const showLoadingSpy = spyOn<Console>(console, 'error');
-    service.intercept(requestMock, next);
-    expect(showLoadingSpy).toHaveBeenCalled();
+    expect(service.intercept(requestMock, next)).toEqual(service.intercept(requestMock, next));
   }));
 
-  it('should be show loading', inject([SetLoadingService], (service: SetLoadingService) => {
+  it('should be show loading', inject([SetLoadingService, NotificationSwalService],
+    (service: SetLoadingService, notification: NotificationSwalService) => {
     const next: any = {
       handle: (request: HttpRequest<any>) => ({
         finally: (callback: Function) => callback()})
     };
     const requestMock = new HttpRequest('GET', '/test');
 
-    const showLoadingSpy = spyOn<Console>(console, 'log');
+    const openLoadingSpy = spyOn<NotificationSwalService>(notification, 'openLoading');
+    const closeLoadingSpy = spyOn<NotificationSwalService>(notification, 'closeLoading');
     service.intercept(requestMock, next);
-    expect(showLoadingSpy).toHaveBeenCalledTimes(2);
+    expect(openLoadingSpy).toHaveBeenCalled();
+    expect(closeLoadingSpy).toHaveBeenCalled();
   }));
 });

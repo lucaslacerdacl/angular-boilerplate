@@ -3,6 +3,7 @@ import { HTTP_INTERCEPTORS, HttpRequest } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { CheckConnectionService } from './checkConnection.interceptor';
+import { ValidationResultModel } from '../../services/validationResult.model';
 
 describe('CheckConnectionService', () => {
   beforeEach(() => {
@@ -26,7 +27,12 @@ describe('CheckConnectionService', () => {
     const requestMock = new HttpRequest('GET', '/test');
 
     const navigatorSpy = spyOnProperty<Navigator>(navigator, 'onLine').and.returnValue(false);
-    expect(service.intercept(requestMock, next)).toEqual(Observable.throw('Connection Error'));
+    const validationResult = new ValidationResultModel();
+    validationResult.hasErrors = true;
+    validationResult.message = 'Ocorreu um erro de conexão! Verifique se está conectado na internet!';
+    expect(service.intercept(requestMock, next)).toEqual(
+      Observable.throw(validationResult)
+    );
     expect(navigatorSpy).toHaveBeenCalled();
   }));
 

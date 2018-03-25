@@ -1,3 +1,5 @@
+import { NotificationSwalService } from './shared/notification/implementations/notification.swal.service';
+import { INotificationSuccess } from './shared/notification/interfaces/INotificationSuccess';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -26,7 +28,8 @@ import { HttpClientModule } from '@angular/common/http';
     ComponentsModule
   ],
   providers: [
-    RestService
+    RestService,
+    NotificationSwalService
   ],
   bootstrap: [AppComponent]
 })
