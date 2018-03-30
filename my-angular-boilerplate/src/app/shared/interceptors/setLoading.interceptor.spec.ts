@@ -19,8 +19,7 @@ describe('SetLoadingService', () => {
     });
   });
 
-  it('should be created SetLoadingService', inject([SetLoadingService],
-    (service: SetLoadingService, notification: NotificationSwalService) => {
+  it('should be created SetLoadingService', inject([SetLoadingService], (service: SetLoadingService) => {
     expect(service).toBeTruthy();
   }));
 

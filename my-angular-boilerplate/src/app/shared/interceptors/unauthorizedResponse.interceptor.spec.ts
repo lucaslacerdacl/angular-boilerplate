@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('UnauthorizedResponseService', () => {
-  const mockRouter = class MockRouter { navigate = jasmine.createSpy("navigate"); }
+  const mockRouter = class MockRouter { navigate = jasmine.createSpy('navigate'); };
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -14,7 +14,7 @@ describe('UnauthorizedResponseService', () => {
         {
           provide: Router,
           useClass: mockRouter
-        } 
+        }
       ]
     });
   });

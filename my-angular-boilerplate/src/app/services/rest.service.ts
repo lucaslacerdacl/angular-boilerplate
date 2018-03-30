@@ -1,17 +1,18 @@
-import { LocalStorageService } from './../shared/helpers/localStorage.service';
-import { Injectable } from '@angular/core';
+import { LocalStorageService } from './../shared/storage/implementations/localStorage/localStorage.service';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { ValidationResultModel } from './validationResult.model';
+import { ILocalStorage } from '../shared/storage/interfaces/ILocalStorage';
 
 @Injectable()
 export class RestService<TModel> {
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
+  constructor(private http: HttpClient, @Inject('ILocalStorage') private _ILocalStorage: ILocalStorage) { }
 
   private getHeaders(): HttpHeaders {
     const headers = new HttpHeaders();
-    headers.append('Authorization', `Bearer ${this.localStorageService.getToken()}`);
+    headers.append('Authorization', `Bearer ${this._ILocalStorage.getValueByKey('token')}`);
     headers.append('Ocp-Apim-Subscription-Key', environment.subscriptionKey);
 
     headers.append('Content-Type', 'application/json');
