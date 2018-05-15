@@ -10,26 +10,28 @@ import { NotificationSwalService } from '../notification/implementations/swal/no
 import { INotificationLoading } from '../notification/interfaces/INotificationLoading';
 
 describe('SetLoadingService', () => {
+
+  let service: SetLoadingService;
   beforeEach(() => {
-    TestBed.configureTestingModule({
+    const providers = TestBed.configureTestingModule({
       providers: [
-        SetLoadingService,
         { provide: 'INotificationLoading', useClass: NotificationSwalService }
       ]
     });
+    service = new SetLoadingService(providers.get('INotificationLoading'));
   });
 
-  it('should be created SetLoadingService', inject([SetLoadingService], (service: SetLoadingService) => {
+  it('should be created SetLoadingService', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 
-  it('should be hide loading', inject([SetLoadingService], (service: SetLoadingService) => {
+  it('should be hide loading', () => {
     const next: any = { handle: (request: HttpRequest<any>) => {}};
     const requestMock = new HttpRequest('GET', '/test', { headers: new HttpHeaders().append('HideLoading', 'true') });
     expect(service.intercept(requestMock, next)).toEqual(service.intercept(requestMock, next));
-  }));
+  });
 
-  it('should be show loading', inject([SetLoadingService], (service: SetLoadingService) => {
+  it('should be show loading', () => {
     const notification = TestBed.get('INotificationLoading');
     const next: any = {
       handle: (request: HttpRequest<any>) => ({
@@ -42,5 +44,5 @@ describe('SetLoadingService', () => {
     service.intercept(requestMock, next);
     expect(openLoadingSpy).toHaveBeenCalled();
     expect(closeLoadingSpy).toHaveBeenCalled();
-  }));
+  });
 });

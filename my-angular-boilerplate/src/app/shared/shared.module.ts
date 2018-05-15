@@ -7,6 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SetLoadingService } from './interceptors/setLoading.interceptor';
 import { NotificationSwalService } from './notification/implementations/swal/notification.swal.service';
+import { RestService } from './services/rest.service';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { NotificationSwalService } from './notification/implementations/swal/not
   declarations: [],
   providers: [
     AuthGuard,
+    RestService,
     { provide: 'ILocalStorage', useClass: LocalStorageService },
     { provide: 'INotificationAlert', useClass: NotificationSwalService },
     { provide: 'INotificationError', useClass: NotificationSwalService },

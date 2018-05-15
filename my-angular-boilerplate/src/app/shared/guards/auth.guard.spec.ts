@@ -5,55 +5,57 @@ import { AuthGuard } from './auth.guard';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 describe('AuthGuard', () => {
+  let service: AuthGuard;
+  let localStorageMock: LocalStorageService;
   beforeEach(() => {
-    TestBed.configureTestingModule({
+    const providers = TestBed.configureTestingModule({
       providers: [
         AuthGuard,
         { provide: 'ILocalStorage', useClass: LocalStorageService }
       ]
     });
+    localStorageMock = providers.get('ILocalStorage');
+    service = new AuthGuard(localStorageMock);
   });
 
-  it('should create AuthGuard', inject([AuthGuard], (guard: AuthGuard) => {
-    expect(guard).toBeTruthy();
-  }));
+  it('should create AuthGuard', () => {
+    expect(service).toBeTruthy();
+  });
 
-  // tslint:disable-next-line:max-line-length
-  it('should not authorize, null token', inject([AuthGuard], (guard: AuthGuard) => {
-    const localStorageService = TestBed.get('ILocalStorage');
-    const getTokenSpy = spyOn<LocalStorageService>(localStorageService, 'getValueByKey').and.callFake((params) => {
-      if (params === 'token') {
-        return '';
-      }
-    }).and.returnValue('');
-    expect(guard.canActivate()).toBe(false);
+  it('should not authorize, null token', () => {
+    const getTokenSpy = spyOn<LocalStorageService>(localStorageMock, 'getValueByKey')
+      .and.callFake((params) => {
+        if (params === 'token') {
+          return '';
+        }
+      }).and.returnValue('');
+    expect(service.canActivate()).toBe(false);
     expect(getTokenSpy).toHaveBeenCalled();
-  }));
+  });
 
-  // tslint:disable-next-line:max-line-length
-  it('should not authorize, null token and user id', inject([AuthGuard], (guard: AuthGuard) => {
-    const localStorageService = TestBed.get('ILocalStorage');
-    const getValueByKeySpy = spyOn<LocalStorageService>(localStorageService, 'getValueByKey').and.callFake((params) => {
-      if (params === 'token') {
-        return '';
-      } else if (params === 'userId') {
-        return '';
-      }
-    }).and.returnValue('');
-    expect(guard.canActivate()).toBe(false);
+  it('should not authorize, null token and user id', () => {
+    const getValueByKeySpy = spyOn<LocalStorageService>(localStorageMock, 'getValueByKey')
+      .and.callFake((params) => {
+        if (params === 'token') {
+          return '';
+        } else if (params === 'userId') {
+          return '';
+        }
+      }).and.returnValue('');
+    expect(service.canActivate()).toBe(false);
     expect(getValueByKeySpy).toHaveBeenCalled();
-  }));
+  });
 
-  it('should authorize', inject([AuthGuard], (guard: AuthGuard) => {
-    const localStorageService = TestBed.get('ILocalStorage');
-    const getValueByKeySpy = spyOn<LocalStorageService>(localStorageService, 'getValueByKey').and.callFake((params) => {
-      if (params === 'token') {
-        return '123456';
-      } else if (params === 'userId') {
-        return '147258369';
-      }
-    }).and.returnValue('123456');
-    expect(guard.canActivate()).toBe(true);
+  it('should authorize', () => {
+    const getValueByKeySpy = spyOn<LocalStorageService>(localStorageMock, 'getValueByKey')
+      .and.callFake((params) => {
+        if (params === 'token') {
+          return '123456';
+        } else if (params === 'userId') {
+          return '147258369';
+        }
+      }).and.returnValue('123456');
+    expect(service.canActivate()).toBe(true);
     expect(getValueByKeySpy).toHaveBeenCalled();
-  }));
+  });
 });

@@ -3,20 +3,19 @@ import { HTTP_INTERCEPTORS, HttpRequest } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { CheckConnectionService } from './checkConnection.interceptor';
-import { ValidationResultModel } from '../../services/validationResult.model';
+import { ValidationResultModel } from '../services/validationResult.model';
 
 describe('CheckConnectionService', () => {
+  let service: CheckConnectionService;
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [CheckConnectionService]
-    });
+    service = new CheckConnectionService();
   });
 
-  it('should be created CheckConnectionService', inject([CheckConnectionService], (service: CheckConnectionService) => {
+  it('should be created CheckConnectionService', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 
-  it('should be offline', inject([CheckConnectionService], (service: CheckConnectionService) => {
+  it('should be offline', () => {
     const next: any = { handle: (request: HttpRequest<any>) => {}};
     const requestMock = new HttpRequest('GET', '/test');
 
@@ -28,14 +27,14 @@ describe('CheckConnectionService', () => {
       Observable.throw(validationResult)
     );
     expect(navigatorSpy).toHaveBeenCalled();
-  }));
+  });
 
-  it('should be online', inject([CheckConnectionService], (service: CheckConnectionService) => {
+  it('should be online', () => {
     const next: any = { handle: (request: HttpRequest<any>) => {}};
     const requestMock = new HttpRequest('GET', '/test');
 
     const navigatorSpy = spyOnProperty<Navigator>(navigator, 'onLine').and.returnValue(true);
     expect(service.intercept(requestMock, next)).toEqual(service.intercept(requestMock, next));
     expect(navigatorSpy).toHaveBeenCalled();
-  }));
+  });
 });

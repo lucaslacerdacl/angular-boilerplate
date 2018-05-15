@@ -6,26 +6,27 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('UnauthorizedResponseService', () => {
-  const mockRouter = class MockRouter { navigate = jasmine.createSpy('navigate'); };
+  let service: UnauthorizedResponseService;
+  let router: Router;
+
   beforeEach(() => {
-    TestBed.configureTestingModule({
+    const providers = TestBed.configureTestingModule({
       providers: [
-        UnauthorizedResponseService,
         {
           provide: Router,
-          useClass: mockRouter
+          useClass: class MockRouter { navigate = jasmine.createSpy('navigate'); }
         }
       ]
     });
+    service = new UnauthorizedResponseService(providers.get(Router));
+    router = providers.get(Router);
   });
 
-  it('should be created UnauthorizedResponsibleService', inject([UnauthorizedResponseService, Router],
-    (service: UnauthorizedResponseService, router: Router) => {
+  it('should be created UnauthorizedResponsibleService', () => {
       expect(service).toBeTruthy();
-    }));
+    });
 
-  it('should be created UnauthorizedResponsibleService', inject([UnauthorizedResponseService, Router],
-    (service: UnauthorizedResponseService, router: Router) => {
+  it('should be created UnauthorizedResponsibleService', () => {
       const next: any = { handle: (request: HttpRequest<any>) => ({ catch: (callback: Function) => callback({ status: 401 }) }) };
       const requestMock = new HttpRequest('GET', '/test');
 
@@ -33,7 +34,6 @@ describe('UnauthorizedResponseService', () => {
       service.intercept(requestMock, next);
       expect(cleanLocalStorageSpy).toHaveBeenCalled();
       expect(router.navigate).toHaveBeenCalledWith(['/']);
-    }));
-
+  });
 
 });

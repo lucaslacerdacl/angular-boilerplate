@@ -1,4 +1,4 @@
-import { LocalStorageService } from './../shared/storage/implementations/localStorage/localStorage.service';
+import { LocalStorageService } from './../storage/implementations/localStorage/localStorage.service';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { RestService } from './rest.service';

@@ -1,9 +1,9 @@
-import { LocalStorageService } from './../shared/storage/implementations/localStorage/localStorage.service';
+import { LocalStorageService } from './../storage/implementations/localStorage/localStorage.service';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { ValidationResultModel } from './validationResult.model';
-import { ILocalStorage } from '../shared/storage/interfaces/ILocalStorage';
+import { ILocalStorage } from '../storage/interfaces/ILocalStorage';
 
 @Injectable()
 export class RestService<TModel> {
