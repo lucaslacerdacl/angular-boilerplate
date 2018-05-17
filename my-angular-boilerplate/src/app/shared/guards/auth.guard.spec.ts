@@ -1,21 +1,19 @@
 import { LocalStorageService } from './../storage/implementations/localStorage/localStorage.service';
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { AuthGuard } from './auth.guard';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 describe('AuthGuard', () => {
   let service: AuthGuard;
-  let localStorageMock: LocalStorageService;
+  let localStorage: LocalStorageService;
   beforeEach(() => {
     const providers = TestBed.configureTestingModule({
       providers: [
-        AuthGuard,
         { provide: 'ILocalStorage', useClass: LocalStorageService }
       ]
     });
-    localStorageMock = providers.get('ILocalStorage');
-    service = new AuthGuard(localStorageMock);
+    localStorage = providers.get('ILocalStorage');
+    service = new AuthGuard(localStorage);
   });
 
   it('should create AuthGuard', () => {
@@ -23,7 +21,7 @@ describe('AuthGuard', () => {
   });
 
   it('should not authorize, null token', () => {
-    const getTokenSpy = spyOn<LocalStorageService>(localStorageMock, 'getValueByKey')
+    const getTokenSpy = spyOn<LocalStorageService>(localStorage, 'getValueByKey')
       .and.callFake((params) => {
         if (params === 'token') {
           return '';
@@ -34,7 +32,7 @@ describe('AuthGuard', () => {
   });
 
   it('should not authorize, null token and user id', () => {
-    const getValueByKeySpy = spyOn<LocalStorageService>(localStorageMock, 'getValueByKey')
+    const getValueByKeySpy = spyOn<LocalStorageService>(localStorage, 'getValueByKey')
       .and.callFake((params) => {
         if (params === 'token') {
           return '';
@@ -47,7 +45,7 @@ describe('AuthGuard', () => {
   });
 
   it('should authorize', () => {
-    const getValueByKeySpy = spyOn<LocalStorageService>(localStorageMock, 'getValueByKey')
+    const getValueByKeySpy = spyOn<LocalStorageService>(localStorage, 'getValueByKey')
       .and.callFake((params) => {
         if (params === 'token') {
           return '123456';

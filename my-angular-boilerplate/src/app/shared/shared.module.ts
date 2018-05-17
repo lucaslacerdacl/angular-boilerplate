@@ -4,14 +4,17 @@ import { LocalStorageService } from './storage/implementations/localStorage/loca
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthGuard } from './guards/auth.guard';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SetLoadingService } from './interceptors/setLoading.interceptor';
 import { NotificationSwalService } from './notification/implementations/swal/notification.swal.service';
 import { RestService } from './services/rest.service';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    BrowserModule,
+    HttpClientModule
   ],
   declarations: [],
   providers: [

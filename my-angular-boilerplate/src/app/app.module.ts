@@ -8,8 +8,8 @@ import { AppRoutesModule } from './app.routes.module';
 import { CrudsModule } from './modules/cruds/cruds.module';
 import { PagesModule } from './modules/pages/pages.module';
 import { ComponentsModule } from './modules/components/components.module';
-import { HttpClientModule } from '@angular/common/http';
 import { LocalStorageService } from './shared/storage/implementations/localStorage/localStorage.service';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -17,9 +17,9 @@ import { LocalStorageService } from './shared/storage/implementations/localStora
     AppComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutesModule,
-    HttpClientModule,
     SharedModule,
     CrudsModule,
     PagesModule,
