@@ -6,13 +6,9 @@ import { AuthGuard } from './auth.guard';
 describe('AuthGuard', () => {
   let service: AuthGuard;
   let localStorage: LocalStorageService;
+
   beforeEach(() => {
-    const providers = TestBed.configureTestingModule({
-      providers: [
-        { provide: 'ILocalStorage', useClass: LocalStorageService }
-      ]
-    });
-    localStorage = providers.get('ILocalStorage');
+    localStorage = new LocalStorageService();
     service = new AuthGuard(localStorage);
   });
 
@@ -26,7 +22,7 @@ describe('AuthGuard', () => {
         if (params === 'token') {
           return '';
         }
-      }).and.returnValue('');
+      });
     expect(service.canActivate()).toBe(false);
     expect(getTokenSpy).toHaveBeenCalled();
   });
@@ -39,7 +35,7 @@ describe('AuthGuard', () => {
         } else if (params === 'userId') {
           return '';
         }
-      }).and.returnValue('');
+      });
     expect(service.canActivate()).toBe(false);
     expect(getValueByKeySpy).toHaveBeenCalled();
   });
@@ -52,7 +48,7 @@ describe('AuthGuard', () => {
         } else if (params === 'userId') {
           return '147258369';
         }
-      }).and.returnValue('123456');
+      });
     expect(service.canActivate()).toBe(true);
     expect(getValueByKeySpy).toHaveBeenCalled();
   });

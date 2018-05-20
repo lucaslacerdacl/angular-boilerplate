@@ -6,29 +6,27 @@ import { ValidationResultModel } from './validationResult.model';
 import { ILocalStorage } from '../storage/interfaces/ILocalStorage';
 
 @Injectable()
-export class RestService<TModel> {
+export class RestService {
 
   constructor(private http: HttpClient, @Inject('ILocalStorage') private _ILocalStorage: ILocalStorage) { }
 
   private getHeaders(): HttpHeaders {
     const headers = new HttpHeaders();
-    headers.append('Authorization', `Bearer ${this._ILocalStorage.getValueByKey('token')}`);
-    headers.append('Ocp-Apim-Subscription-Key', environment.subscriptionKey);
-
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-
-    headers.append('Access-Control-Allow-Credentials', '*');
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-    headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-XSRF-TOKEN, Content-Type, Accept, X-Auth-Token');
+    headers.set('Authorization', `Bearer ${this._ILocalStorage.getValueByKey('token')}`)
+    .set('Ocp-Apim-Subscription-Key', environment.subscriptionKey)
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .set('Access-Control-Allow-Credentials', '*')
+    .set('Access-Control-Allow-Origin', '*')
+    .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS')
+    .set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-XSRF-TOKEN, Content-Type, Accept, X-Auth-Token');
     return headers;
   }
 
   private getOptions(params?: HttpParams, hideLoading?: boolean): object {
     const headers = this.getHeaders();
     if (hideLoading) {
-      headers.append('HideLoading', 'true');
+      headers.set('HideLoading', 'true');
     }
     if (params) {
       return { params, headers };
@@ -41,61 +39,74 @@ export class RestService<TModel> {
     return `${environment.baseUrl}/${method}`;
   }
 
-  protected async getAllAsync(url: string, filters?: HttpParams, hideLoading?: boolean): Promise<ValidationResultModel<TModel[]>> {
-    const result = await this.http.get<ValidationResultModel<TModel[]>>(url, this.getOptions(filters, hideLoading)).toPromise();
-    return result;
-  }
-
-  protected async getAsync(url: string, filters?: HttpParams, hideLoading?: boolean): Promise<ValidationResultModel<TModel>> {
-    const result = await this.http.get<ValidationResultModel<TModel>>(url, this.getOptions(filters, hideLoading)).toPromise();
-    return result;
-  }
-
-  protected async postAllAsync(url: string, model: TModel[], filters?: HttpParams, hideLoading?: boolean):
-    Promise<ValidationResultModel<TModel[]>> {
-    const result = await this.http.post<ValidationResultModel<TModel[]>>(url, JSON.stringify(model), this.getOptions(filters, hideLoading))
+  protected async getAllAsync<TModel>(url: string, filters?: HttpParams, hideLoading?: boolean): Promise<ValidationResultModel<TModel[]>> {
+    const result = await this.http.get<ValidationResultModel<TModel[]>>(this.methodUrl(url),
+      this.getOptions(filters, hideLoading))
       .toPromise();
     return result;
   }
 
-  protected async postAsync(url: string, model: TModel, filters?: HttpParams, hideLoading?: boolean):
-    Promise<ValidationResultModel<TModel>> {
-    const result = await this.http.post<ValidationResultModel<TModel>>(url, JSON.stringify(model), this.getOptions(filters, hideLoading))
+  protected async getAsync<TModel>(url: string, filters?: HttpParams, hideLoading?: boolean): Promise<ValidationResultModel<TModel>> {
+    const result = await this.http.get<ValidationResultModel<TModel>>(this.methodUrl(url),
+      this.getOptions(filters, hideLoading))
       .toPromise();
     return result;
   }
 
-  protected async putAllAsync(url: string, model?: TModel[], filters?: HttpParams, hideLoading?: boolean):
+  protected async postAllAsync<TModel>(url: string, model: TModel[], filters?: HttpParams, hideLoading?: boolean):
+    Promise<ValidationResultModel<TModel[]>> {
+    const result = await this.http.post<ValidationResultModel<TModel[]>>(this.methodUrl(url),
+      JSON.stringify(model), this.getOptions(filters, hideLoading))
+      .toPromise();
+    return result;
+  }
+
+  protected async postAsync<TModel>(url: string, model: TModel, filters?: HttpParams, hideLoading?: boolean):
+    Promise<ValidationResultModel<TModel>> {
+    const result = await this.http.post<ValidationResultModel<TModel>>(this.methodUrl(url),
+      JSON.stringify(model), this.getOptions(filters, hideLoading))
+      .toPromise();
+    return result;
+  }
+
+  protected async putAllAsync<TModel>(url: string, model?: TModel[], filters?: HttpParams, hideLoading?: boolean):
     Promise<ValidationResultModel<TModel[]>> {
     let result;
     if (model) {
-      result = await this.http.put<ValidationResultModel<TModel[]>>(url, JSON.stringify(model), this.getOptions(filters, hideLoading))
+      result = await this.http.put<ValidationResultModel<TModel[]>>(this.methodUrl(url),
+        JSON.stringify(model), this.getOptions(filters, hideLoading))
         .toPromise();
     } else {
-      result = await this.http.put<ValidationResultModel<TModel[]>>(url, this.getOptions(filters, hideLoading)).toPromise();
+      result = await this.http.put<ValidationResultModel<TModel[]>>(this.methodUrl(url), this.getOptions(filters, hideLoading)).toPromise();
     }
     return result;
   }
 
-  protected async putAsync(url: string, model?: TModel, filters?: HttpParams, hideLoading?: boolean):
+  protected async putAsync<TModel>(url: string, model?: TModel, filters?: HttpParams, hideLoading?: boolean):
     Promise<ValidationResultModel<TModel>> {
     let result;
     if (model) {
-      result = await this.http.put<ValidationResultModel<TModel>>(url, JSON.stringify(model), this.getOptions(filters, hideLoading))
+      result = await this.http.put<ValidationResultModel<TModel>>(this.methodUrl(url),
+        JSON.stringify(model), this.getOptions(filters, hideLoading))
         .toPromise();
     } else {
-      result = await this.http.put<ValidationResultModel<TModel>>(url, this.getOptions(filters, hideLoading)).toPromise();
+      result = await this.http.put<ValidationResultModel<TModel>>(this.methodUrl(url), this.getOptions(filters, hideLoading)).toPromise();
     }
     return result;
   }
 
-  protected async deleteAllAsync(url: string, filters?: HttpParams, hideLoading?: boolean): Promise<ValidationResultModel<TModel[]>> {
-    const result = await this.http.delete<ValidationResultModel<TModel[]>>(url, this.getOptions(filters, hideLoading)).toPromise();
+  // tslint:disable-next-line:max-line-length
+  protected async deleteAllAsync<TModel>(url: string, filters?: HttpParams, hideLoading?: boolean): Promise<ValidationResultModel<TModel[]>> {
+    const result = await this.http.delete<ValidationResultModel<TModel[]>>(this.methodUrl(url),
+      this.getOptions(filters, hideLoading))
+      .toPromise();
     return result;
   }
 
-  protected async deleteAsync(url: string, filters?: HttpParams, hideLoading?: boolean): Promise<ValidationResultModel<TModel>> {
-    const result = await this.http.delete<ValidationResultModel<TModel>>(url, this.getOptions(filters, hideLoading)).toPromise();
+  protected async deleteAsync<TModel>(url: string, filters?: HttpParams, hideLoading?: boolean): Promise<ValidationResultModel<TModel>> {
+    const result = await this.http.delete<ValidationResultModel<TModel>>(this.methodUrl(url),
+      this.getOptions(filters, hideLoading))
+      .toPromise();
     return result;
   }
 

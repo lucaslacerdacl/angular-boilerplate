@@ -10,15 +10,11 @@ import { NotificationSwalService } from '../notification/implementations/swal/no
 import { INotificationLoading } from '../notification/interfaces/INotificationLoading';
 
 describe('SetLoadingService', () => {
-
+  let notification: NotificationSwalService;
   let service: SetLoadingService;
   beforeEach(() => {
-    const providers = TestBed.configureTestingModule({
-      providers: [
-        { provide: 'INotificationLoading', useClass: NotificationSwalService }
-      ]
-    });
-    service = new SetLoadingService(providers.get('INotificationLoading'));
+    notification = new NotificationSwalService();
+    service = new SetLoadingService(notification);
   });
 
   it('should be created SetLoadingService', () => {
@@ -32,7 +28,6 @@ describe('SetLoadingService', () => {
   });
 
   it('should be show loading', () => {
-    const notification = TestBed.get('INotificationLoading');
     const next: any = {
       handle: (request: HttpRequest<any>) => ({
         finally: (callback: Function) => callback()})
