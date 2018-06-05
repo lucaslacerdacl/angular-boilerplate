@@ -6,14 +6,14 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { SetLoadingService } from './setLoading.interceptor';
 import { HTTP_INTERCEPTORS, HttpRequest, HttpHeaders } from '@angular/common/http';
-import { NotificationSwalService } from '../notification/implementations/swal/notification.swal.service';
+import { NotificationService } from '../notification/implementations/swal/notification.swal.service';
 import { INotificationLoading } from '../notification/interfaces/INotificationLoading';
 
 describe('SetLoadingService', () => {
-  let notification: NotificationSwalService;
+  let notification: NotificationService;
   let service: SetLoadingService;
   beforeEach(() => {
-    notification = new NotificationSwalService();
+    notification = new NotificationService();
     service = new SetLoadingService(notification);
   });
 

@@ -6,7 +6,7 @@ import { ILocalStorage } from '../storage/interfaces/ILocalStorage';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(@Inject('ILocalStorage') private _ILocalStorage: ILocalStorage) {
+  constructor(private _ILocalStorage: ILocalStorage) {
 
   }
   canActivate(): boolean {

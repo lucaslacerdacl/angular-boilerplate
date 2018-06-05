@@ -9,7 +9,7 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class SetLoadingService implements HttpInterceptor {
 
-  constructor(@Inject('INotificationLoading') private _INotificationLoading: INotificationLoading) {}
+  constructor(private _INotificationLoading: INotificationLoading) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.headers.has('HideLoading')) {

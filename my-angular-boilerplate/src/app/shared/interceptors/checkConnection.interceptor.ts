@@ -1,4 +1,4 @@
-import { ValidationResultModel } from './../services/validationResult.model';
+import { ValidationResultModel } from './../http/validationResult.model';
 import { Observable } from 'rxjs/Observable';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';

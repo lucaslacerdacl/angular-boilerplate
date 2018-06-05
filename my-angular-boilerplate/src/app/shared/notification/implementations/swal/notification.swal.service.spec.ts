@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { NotificationSwalService } from './notification.swal.service';
+import { NotificationService } from './notification.swal.service';
 
-describe('NotificationSwalService', () => {
+describe('NotificationService', () => {
 
-  let service: NotificationSwalService;
+  let service: NotificationService;
 
   beforeEach(() => {
-    service = new NotificationSwalService();
+    service = new NotificationService();
   });
 
-  it('should be created NotificationSwalService', () => {
+  it('should be created NotificationService', () => {
     expect(service).toBeTruthy();
   });
 

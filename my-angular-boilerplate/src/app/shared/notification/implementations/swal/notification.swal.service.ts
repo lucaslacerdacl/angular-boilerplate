@@ -8,7 +8,7 @@ import { INotificationInfo } from '../../interfaces/INotificationInfo';
 import swal from 'sweetalert2';
 
 @Injectable()
-export class NotificationSwalService implements INotificationSuccess, INotificationError, INotificationAlert,
+export class NotificationService implements INotificationSuccess, INotificationError, INotificationAlert,
   INotificationInfo, INotificationQuestion, INotificationLoading {
   openLoading(options?: object): Promise<any> {
     const properties = Object.assign({}, options);

@@ -1,32 +1,32 @@
-import { LocalStorageService } from './../storage/implementations/localStorage/localStorage.service';
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { ValidationResultModel } from './validationResult.model';
-import { ILocalStorage } from '../storage/interfaces/ILocalStorage';
+import { ILocalStorage } from '../../../storage/interfaces/ILocalStorage';
+import { environment } from '../../../../../environments/environment';
+import { ValidationResultModel } from '../.././validationResult.model';
+import { IHttpService } from '../../interfaces/IHttpService';
+
 
 @Injectable()
-export class RestService {
+export class HttpService implements IHttpService {
 
-  constructor(private http: HttpClient, @Inject('ILocalStorage') private _ILocalStorage: ILocalStorage) { }
+  constructor(private http: HttpClient, private _ILocalStorage: ILocalStorage) { }
 
-  private getHeaders(): HttpHeaders {
-    const headers = new HttpHeaders();
-    headers.set('Authorization', `Bearer ${this._ILocalStorage.getValueByKey('token')}`)
-      .set('Ocp-Apim-Subscription-Key', environment.subscriptionKey)
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-      .set('Access-Control-Allow-Credentials', '*')
-      .set('Access-Control-Allow-Origin', '*')
-      .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS')
-      .set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-XSRF-TOKEN, Content-Type, Accept, X-Auth-Token');
-    return headers;
-  }
+  headers: { [name: string]: string } = {
+    'Authorization': `Bearer ${this._ILocalStorage.getValueByKey('token')}`,
+    'Ocp-Apim-Subscription-Key': environment.subscriptionKey,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Access-Control-Allow-Credentials': '*',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, X-XSRF-TOKEN, Content-Type, Accept, X-Auth-Token'
+  };
 
   private getOptions(params?: HttpParams, hideLoading?: boolean): object {
-    const headers = this.getHeaders();
+    const headers = this.headers;
     if (hideLoading) {
-      headers.set('HideLoading', 'true');
+      const hideloadingHeader = { 'HideLoading': 'true' };
+      Object.assign(headers, hideloadingHeader);
     }
     if (params) {
       return { params, headers };
@@ -39,7 +39,7 @@ export class RestService {
     return `${environment.baseUrl}/${method}`;
   }
 
-  protected async getAllAsync<OutputModel>(url: string, filters?: HttpParams, hideLoading?: boolean):
+  public async getAllAsync<OutputModel>(url: string, filters?: HttpParams, hideLoading?: boolean):
     Promise<ValidationResultModel<OutputModel[]>> {
     const result = await this.http.get<ValidationResultModel<OutputModel[]>>(this.methodUrl(url),
       this.getOptions(filters, hideLoading))
@@ -47,7 +47,7 @@ export class RestService {
     return result;
   }
 
-  protected async getAsync<OutputModel>(url: string, filters?: HttpParams, hideLoading?: boolean):
+  public async getAsync<OutputModel>(url: string, filters?: HttpParams, hideLoading?: boolean):
     Promise<ValidationResultModel<OutputModel>> {
     const result = await this.http.get<ValidationResultModel<OutputModel>>(this.methodUrl(url),
       this.getOptions(filters, hideLoading))
@@ -55,7 +55,7 @@ export class RestService {
     return result;
   }
 
-  protected async postAllAsync<InputModel, OutputModel>(url: string, model: InputModel[], filters?: HttpParams, hideLoading?: boolean):
+  public async postAllAsync<InputModel, OutputModel>(url: string, model: InputModel[], filters?: HttpParams, hideLoading?: boolean):
     Promise<ValidationResultModel<OutputModel[]>> {
     const result = await this.http.post<ValidationResultModel<OutputModel[]>>(this.methodUrl(url),
       JSON.stringify(model), this.getOptions(filters, hideLoading))
@@ -63,7 +63,7 @@ export class RestService {
     return result;
   }
 
-  protected async postAsync<InputModel, OutputModel>(url: string, model: InputModel, filters?: HttpParams, hideLoading?: boolean):
+  public async postAsync<InputModel, OutputModel>(url: string, model: InputModel, filters?: HttpParams, hideLoading?: boolean):
     Promise<ValidationResultModel<OutputModel>> {
     const result = await this.http.post<ValidationResultModel<OutputModel>>(this.methodUrl(url),
       JSON.stringify(model), this.getOptions(filters, hideLoading))
@@ -71,7 +71,7 @@ export class RestService {
     return result;
   }
 
-  protected async putAllAsync<InputModel, OutputModel>(url: string, model?: InputModel[], filters?: HttpParams, hideLoading?: boolean):
+  public async putAllAsync<InputModel, OutputModel>(url: string, model?: InputModel[], filters?: HttpParams, hideLoading?: boolean):
     Promise<ValidationResultModel<OutputModel[]>> {
     let result;
     if (model) {
@@ -86,7 +86,7 @@ export class RestService {
     return result;
   }
 
-  protected async putAsync<InputModel, OutputModel>(url: string, model?: InputModel, filters?: HttpParams, hideLoading?: boolean):
+  public async putAsync<InputModel, OutputModel>(url: string, model?: InputModel, filters?: HttpParams, hideLoading?: boolean):
     Promise<ValidationResultModel<OutputModel>> {
     let result;
     if (model) {
@@ -101,7 +101,7 @@ export class RestService {
     return result;
   }
 
-  protected async deleteAllAsync<OutputModel>(url: string, filters?: HttpParams, hideLoading?: boolean):
+  public async deleteAllAsync<OutputModel>(url: string, filters?: HttpParams, hideLoading?: boolean):
     Promise<ValidationResultModel<OutputModel[]>> {
     const result = await this.http.delete<ValidationResultModel<OutputModel[]>>(this.methodUrl(url),
       this.getOptions(filters, hideLoading))
@@ -109,7 +109,7 @@ export class RestService {
     return result;
   }
 
-  protected async deleteAsync<OutputModel>(url: string, filters?: HttpParams, hideLoading?: boolean):
+  public async deleteAsync<OutputModel>(url: string, filters?: HttpParams, hideLoading?: boolean):
     Promise<ValidationResultModel<OutputModel>> {
     const result = await this.http.delete<ValidationResultModel<OutputModel>>(this.methodUrl(url),
       this.getOptions(filters, hideLoading))
