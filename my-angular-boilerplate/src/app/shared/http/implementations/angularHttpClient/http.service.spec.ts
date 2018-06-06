@@ -143,7 +143,7 @@ describe('HttpService', () => {
       });
   });
 
-  it('should call GET method with only Array and return success', () => {
+  it('should call GET method and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'get')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
@@ -158,7 +158,7 @@ describe('HttpService', () => {
       });
   });
 
-  it('should call GET method with Array and filters and return success', () => {
+  it('should call GET method and filters and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'get')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
@@ -177,7 +177,7 @@ describe('HttpService', () => {
       });
   });
 
-  it('should call GET method with Array, filters and loading hide, and return success', () => {
+  it('should call GET method, filters and loading hide, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'get')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
@@ -199,7 +199,7 @@ describe('HttpService', () => {
       });
   });
 
-  it('should call GET method with only Array and return error', () => {
+  it('should call GET method and return error', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'get').and.returnValue(Observable.throw(responseErrorMock));
 
     const result = service.getAsync<OutputTest>('test');
@@ -287,5 +287,510 @@ describe('HttpService', () => {
       });
   });
 
+  it('should call POST method and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'post')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, JSON.stringify(requestInputTest), { headers });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('sshould call POST method and filters and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'post')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest, httpFilters);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      JSON.stringify(requestInputTest),
+      { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('sshould call POST method with Array and filters and loading hide, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'post')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const hideLoadingHeader = { 'HideLoading': 'true' };
+    Object.assign(headers, hideLoadingHeader);
+
+    const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest, httpFilters, true);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      JSON.stringify(requestInputTest),
+      { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call POST method and return error', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'post').and.returnValue(Observable.throw(responseErrorMock));
+
+    const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, JSON.stringify(requestInputTest), { headers });
+
+    result
+      .catch(error => {
+        expect(error).toEqual(responseErrorMock);
+      });
+  });
+
+  it('should call PUT ALL method with only Array and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest[]>>([responseSuccessForRequestWithAllMock]));
+
+    const result = service.putAllAsync<InputTest, OutputTest>('test', requestInputTestAll);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, JSON.stringify(requestInputTestAll), { headers });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestWithAllMock.value);
+      });
+  });
+
+  it('should call PUT ALL method without Array and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest[]>>([responseSuccessForRequestWithAllMock]));
+
+    const result = service.putAllAsync<InputTest, OutputTest>('test');
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestWithAllMock.value);
+      });
+  });
+
+  it('should call PUT ALL method with Array and filters and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest[]>>([responseSuccessForRequestWithAllMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const result = service.putAllAsync<InputTest, OutputTest>('test', requestInputTestAll, httpFilters);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      JSON.stringify(requestInputTestAll),
+      { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestWithAllMock.value);
+      });
+  });
+
+  it('should call PUT ALL method without Array and filters and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest[]>>([responseSuccessForRequestWithAllMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const result = service.putAllAsync<InputTest, OutputTest>('test', null, httpFilters);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestWithAllMock.value);
+      });
+  });
+
+  it('should call PUT ALL method with Array and filters and loading hide, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest[]>>([responseSuccessForRequestWithAllMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const hideLoadingHeader = { 'HideLoading': 'true' };
+    Object.assign(headers, hideLoadingHeader);
+
+    const result = service.putAllAsync<InputTest, OutputTest>('test', requestInputTestAll, httpFilters, true);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      JSON.stringify(requestInputTestAll),
+      { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestWithAllMock.value);
+      });
+  });
+
+  it('should call PUT ALL method without Array and filters and loading hide, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest[]>>([responseSuccessForRequestWithAllMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const hideLoadingHeader = { 'HideLoading': 'true' };
+    Object.assign(headers, hideLoadingHeader);
+
+    const result = service.putAllAsync<InputTest, OutputTest>('test', null, httpFilters, true);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestWithAllMock.value);
+      });
+  });
+
+  it('should call PUT ALL with array method and return error', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put').and.returnValue(Observable.throw(responseErrorMock));
+
+    const result = service.putAllAsync<InputTest, OutputTest>('test', requestInputTestAll);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, JSON.stringify(requestInputTestAll), { headers });
+
+    result
+      .catch(error => {
+        expect(error).toEqual(responseErrorMock);
+      });
+  });
+
+  it('should call PUT ALL without array method and return error', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put').and.returnValue(Observable.throw(responseErrorMock));
+
+    const result = service.putAllAsync<InputTest, OutputTest>('test');
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers });
+
+    result
+      .catch(error => {
+        expect(error).toEqual(responseErrorMock);
+      });
+  });
+
+  it('should call PUT method with only Array and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const result = service.putAsync<InputTest, OutputTest>('test', requestInputTest);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, JSON.stringify(requestInputTest), { headers });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call PUT method without Array and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const result = service.putAsync<InputTest, OutputTest>('test');
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call PUT method with Array and filters and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const result = service.putAsync<InputTest, OutputTest>('test', requestInputTest, httpFilters);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      JSON.stringify(requestInputTest),
+      { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call PUT method without Array and filters and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const result = service.putAsync<InputTest, OutputTest>('test', null, httpFilters);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call PUT method with Array and filters and loading hide, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const hideLoadingHeader = { 'HideLoading': 'true' };
+    Object.assign(headers, hideLoadingHeader);
+
+    const result = service.putAsync<InputTest, OutputTest>('test', requestInputTest, httpFilters, true);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      JSON.stringify(requestInputTest),
+      { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call PUT method without Array and filters and loading hide, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const hideLoadingHeader = { 'HideLoading': 'true' };
+    Object.assign(headers, hideLoadingHeader);
+
+    const result = service.putAsync<InputTest, OutputTest>('test', null, httpFilters, true);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call PUT with array method and return error', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put').and.returnValue(Observable.throw(responseErrorMock));
+
+    const result = service.putAsync<InputTest, OutputTest>('test', requestInputTest);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, JSON.stringify(requestInputTest), { headers });
+
+    result
+      .catch(error => {
+        expect(error).toEqual(responseErrorMock);
+      });
+  });
+
+  it('should call PUT without array method and return error', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put').and.returnValue(Observable.throw(responseErrorMock));
+
+    const result = service.putAsync<InputTest, OutputTest>('test');
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers });
+
+    result
+      .catch(error => {
+        expect(error).toEqual(responseErrorMock);
+      });
+  });
+
+  it('should call DELETE ALL method and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest[]>>([responseSuccessForRequestWithAllMock]));
+
+    const result = service.deleteAllAsync<OutputTest>('test');
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestWithAllMock.value);
+      });
+  });
+
+  it('should call DELETE ALL method and filters and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest[]>>([responseSuccessForRequestWithAllMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const result = service.deleteAllAsync<OutputTest>('test', httpFilters);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestWithAllMock.value);
+      });
+  });
+
+  it('should call DELETE ALL method, filters and loading hide, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest[]>>([responseSuccessForRequestWithAllMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const hideLoadingHeader = { 'HideLoading': 'true' };
+    Object.assign(headers, hideLoadingHeader);
+
+    const result = service.deleteAllAsync<OutputTest>('test', httpFilters, true);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestWithAllMock.value);
+      });
+  });
+
+  it('should call DELETE ALL method and return error', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'delete').and.returnValue(Observable.throw(responseErrorMock));
+
+    const result = service.deleteAllAsync<OutputTest>('test');
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers });
+
+    result
+      .catch(error => {
+        expect(error).toEqual(responseErrorMock);
+      });
+  });
+
+  it('should call DELETE method and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const result = service.deleteAsync<OutputTest>('test');
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call DELETE method and filters and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const result = service.deleteAsync<OutputTest>('test', httpFilters);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call DELETE method, filters and loading hide, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const httpFilters = new HttpParams()
+      .set('Name', 'Tony Stark')
+      .set('HeroName', 'Iron Man');
+
+    const hideLoadingHeader = { 'HideLoading': 'true' };
+    Object.assign(headers, hideLoadingHeader);
+
+    const result = service.deleteAsync<OutputTest>('test', httpFilters, true);
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers, params: httpFilters });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call DELETE method and return error', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'delete').and.returnValue(Observable.throw(responseErrorMock));
+
+    const result = service.deleteAsync<OutputTest>('test');
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers });
+
+    result
+      .catch(error => {
+        expect(error).toEqual(responseErrorMock);
+      });
+  });
 
 });
