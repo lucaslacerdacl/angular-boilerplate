@@ -1,5 +1,4 @@
 import { LocalStorageService } from './../storage/implementations/localStorage/localStorage.service';
-import { TestBed } from '@angular/core/testing';
 
 import { AuthGuard } from './auth.guard';
 

@@ -1,7 +1,7 @@
 import { INotificationLoading } from './../notification/interfaces/INotificationLoading';
 import { Observable } from 'rxjs/Observable';
-import { Injectable, Inject } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';

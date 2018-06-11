@@ -17,7 +17,7 @@ describe('NotificationService', () => {
     const swal = require('sweetalert2');
     const getSwal = spyOn(swal, 'default').and.returnValue(new Promise<any>(() => {}));
     service.openLoading();
-    expect(getSwal).toHaveBeenCalledWith({});
+    expect(getSwal).toHaveBeenCalledWith({allowOutsideClick: false});
   });
 
   it('should close loading', () => {

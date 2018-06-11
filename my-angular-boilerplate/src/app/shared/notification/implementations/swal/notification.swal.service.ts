@@ -11,7 +11,9 @@ import swal from 'sweetalert2';
 export class NotificationService implements INotificationSuccess, INotificationError, INotificationAlert,
   INotificationInfo, INotificationQuestion, INotificationLoading {
   openLoading(options?: object): Promise<any> {
-    const properties = Object.assign({}, options);
+    const properties = Object.assign({
+      allowOutsideClick: false
+    }, options);
     return swal(properties);
   }
   closeLoading(): void {

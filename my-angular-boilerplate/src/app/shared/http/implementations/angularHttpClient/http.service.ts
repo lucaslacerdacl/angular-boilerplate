@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ILocalStorage } from '../../../storage/interfaces/ILocalStorage';
 import { environment } from '../../../../../environments/environment';
 import { ValidationResultModel } from '../.././validationResult.model';

@@ -1,7 +1,5 @@
-import { TestBed, inject } from '@angular/core/testing';
-
 import { HttpService } from './http.service';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { LocalStorageService } from '../../../storage/implementations/localStorage/localStorage.service';
 import { environment } from '../../../../../environments/environment';
 import { ValidationResultModel } from '../.././validationResult.model';

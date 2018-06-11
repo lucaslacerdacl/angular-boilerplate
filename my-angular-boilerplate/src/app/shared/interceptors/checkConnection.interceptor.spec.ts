@@ -1,7 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { HTTP_INTERCEPTORS, HttpRequest } from '@angular/common/http';
-import { TestBed, inject } from '@angular/core/testing';
-
+import { HttpRequest } from '@angular/common/http';
 import { CheckConnectionService } from './checkConnection.interceptor';
 import { ValidationResultModel } from '../http/validationResult.model';
 
@@ -16,7 +14,7 @@ describe('CheckConnectionService', () => {
   });
 
   it('should be offline', () => {
-    const next: any = { handle: (request: HttpRequest<any>) => {}};
+    const next: any = { handle: () => {}};
     const requestMock = new HttpRequest('GET', '/test');
 
     const navigatorSpy = spyOnProperty<Navigator>(navigator, 'onLine').and.returnValue(false);
@@ -33,7 +31,7 @@ describe('CheckConnectionService', () => {
   });
 
   it('should be online', () => {
-    const next: any = { handle: (request: HttpRequest<any>) => {}};
+    const next: any = { handle: () => {}};
     const requestMock = new HttpRequest('GET', '/test');
 
     const navigatorSpy = spyOnProperty<Navigator>(navigator, 'onLine').and.returnValue(true);

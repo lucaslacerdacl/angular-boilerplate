@@ -1,9 +1,8 @@
-import { TestBed, inject } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { UnauthorizedResponseService } from './unauthorizedResponse.interceptor';
-import { HTTP_INTERCEPTORS, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Observable } from 'rxjs/Observable';
 
 describe('UnauthorizedResponseService', () => {
   let service: UnauthorizedResponseService;
@@ -26,14 +25,26 @@ describe('UnauthorizedResponseService', () => {
       expect(service).toBeTruthy();
     });
 
-  it('should be created UnauthorizedResponsibleService', () => {
-      const next: any = { handle: (request: HttpRequest<any>) => ({ catch: (callback: Function) => callback({ status: 401 }) }) };
+  it('should call unauthorized route', () => {
+      const next: any = { handle: () => ({ catch: (callback: Function) => callback({ status: 401 }) }) };
       const requestMock = new HttpRequest('GET', '/test');
-
       const cleanLocalStorageSpy = spyOn<Storage>(localStorage, 'clear');
+
       service.intercept(requestMock, next);
+
       expect(cleanLocalStorageSpy).toHaveBeenCalled();
       expect(router.navigate).toHaveBeenCalledWith(['/']);
+  });
+
+  it('should route with error status code', () => {
+    const next: any = { handle: () => ({ catch: (callback: Function) => callback({ status: 404 }) }) };
+    const requestMock = new HttpRequest('GET', '/test');
+
+    const interceptorResponse = service.intercept(requestMock, next);
+
+    expect(interceptorResponse).toEqual(
+      Observable.throw({ status: 404})
+    );
   });
 
 });
