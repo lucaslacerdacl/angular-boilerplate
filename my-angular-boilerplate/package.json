@@ -13,11 +13,13 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^5.2.11",
+    "@angular/cdk": "^6.2.1",
     "@angular/common": "^5.2.11",
     "@angular/compiler": "^5.2.11",
     "@angular/core": "^5.2.11",
     "@angular/forms": "^5.2.11",
     "@angular/http": "^5.2.11",
+    "@angular/material": "^6.2.1",
     "@angular/platform-browser": "^5.2.11",
     "@angular/platform-browser-dynamic": "^5.2.11",
     "@angular/router": "^5.2.11",
