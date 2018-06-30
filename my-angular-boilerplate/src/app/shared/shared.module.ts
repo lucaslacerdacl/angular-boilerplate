@@ -9,6 +9,7 @@ import { SetLoadingService } from './interceptors/setLoading.interceptor';
 import { NotificationService } from './notification/implementations/swal/notification.swal.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpService } from './http/implementations/angularHttpClient/http.service';
+import { HandleExceptionsService } from './interceptors/handleExceptions.interceptor';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { HttpService } from './http/implementations/angularHttpClient/http.servi
     { provide: 'IHttpService', useClass: HttpService },
     { provide: HTTP_INTERCEPTORS, useClass: CheckConnectionService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SetLoadingService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedResponseService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedResponseService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HandleExceptionsService, multi: true }
   ]
 })
 export class SharedModule { }

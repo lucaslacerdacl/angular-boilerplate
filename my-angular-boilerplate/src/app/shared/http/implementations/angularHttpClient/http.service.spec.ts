@@ -22,7 +22,6 @@ describe('HttpService', () => {
   }
 
   let requestInputTest: InputTest;
-  let requestInputTestAll: InputTest[];
 
   let outputTest: OutputTest;
   let responseSuccessForRequestWithAllMock: ValidationResultModel<OutputTest[]>;
@@ -44,7 +43,6 @@ describe('HttpService', () => {
     service = new HttpService(httpClient, localStorage);
 
     requestInputTest = new InputTest('Input Test');
-    requestInputTestAll = new Array<InputTest>(requestInputTest);
 
     outputTest = new OutputTest('Output Test');
     responseSuccessForRequestWithAllMock = new ValidationResultModel<OutputTest[]>();
@@ -65,6 +63,10 @@ describe('HttpService', () => {
       'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
       'Access-Control-Allow-Headers': 'Origin, X-Requested-With, X-XSRF-TOKEN, Content-Type, Accept, X-Auth-Token'
     };
+  });
+
+  afterEach(() => {
+    expect(localStorageSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should be created', () => {
