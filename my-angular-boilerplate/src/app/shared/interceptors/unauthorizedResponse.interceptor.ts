@@ -10,14 +10,18 @@ export class UnauthorizedResponseService implements HttpInterceptor {
   constructor(private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req)
-    .catch((err: HttpErrorResponse) => {
-      if (err.status === 401) {
-        localStorage.clear();
-        this.router.navigate(['/']);
-      }
-      return Observable.throw(err);
-    });
+    if (req.headers.has('DisableUnauthorizedInterceptor')) {
+      return next.handle(req);
+    } else {
+      return next.handle(req)
+      .catch((err: HttpErrorResponse) => {
+        if (err.status === 401 || err.status === 403) {
+          localStorage.clear();
+          this.router.navigate(['/']);
+        }
+        return Observable.throw(err);
+      });
+    }
   }
 }
 

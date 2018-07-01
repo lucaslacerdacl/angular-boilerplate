@@ -48,4 +48,21 @@ describe('HandleExceptionsService', () => {
         expect(error).toEqual(new ValidationResultModel('Unexpected error', null, 500));
       });
   });
+
+  it('should be in catch, response status 404 (Not Found)', () => {
+    const httpError = new HttpErrorResponse({
+      status: 404
+    });
+    const next: any = {
+      handle: () => ({
+        catch: (callback: Function) => callback(httpError)
+      })
+    };
+    const requestMock = new HttpRequest('GET', '/test');
+
+    service.intercept(requestMock, next).toPromise()
+      .catch(error => {
+        expect(error).toEqual(new ValidationResultModel('Please contact us', null, 404));
+      });
+  });
 });

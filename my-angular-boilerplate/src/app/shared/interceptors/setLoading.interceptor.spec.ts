@@ -10,9 +10,11 @@ import { INotificationLoading } from '../notification/interfaces/INotificationLo
 describe('SetLoadingService', () => {
   let notification: NotificationService;
   let service: SetLoadingService;
+  let openLoadingSpy: jasmine.Spy;
   beforeEach(() => {
     notification = new NotificationService();
     service = new SetLoadingService(notification);
+    openLoadingSpy = spyOn<INotificationLoading>(notification, 'openLoading');
   });
 
   it('should be created SetLoadingService', () => {
@@ -20,7 +22,6 @@ describe('SetLoadingService', () => {
   });
 
   it('should be hide loading', () => {
-    const openLoadingSpy = spyOn<INotificationLoading>(notification, 'openLoading');
     const next: any = { handle: () => {}};
     const requestMock = new HttpRequest('GET', '/test', { headers: new HttpHeaders().append('HideLoading', 'true') });
 
@@ -35,7 +36,6 @@ describe('SetLoadingService', () => {
         finally: (callback: Function) => callback()})
     };
     const requestMock = new HttpRequest('GET', '/test');
-    const openLoadingSpy = spyOn<INotificationLoading>(notification, 'openLoading');
     const closeLoadingSpy = spyOn<INotificationLoading>(notification, 'closeLoading');
 
     service.intercept(requestMock, next);
