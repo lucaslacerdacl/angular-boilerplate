@@ -13,7 +13,7 @@ describe('HandleExceptionsService', () => {
   });
 
   it('should be in catch, response status 400 (Bad Request)', () => {
-    const backendCustomException = new ValidationResultModel(true, 'Please fill all fields.', null, 400);
+    const backendCustomException = new ValidationResultModel('Please fill all fields.', null, 400);
     const httpError = new HttpErrorResponse({
       error: backendCustomException,
       status: 400
@@ -45,7 +45,7 @@ describe('HandleExceptionsService', () => {
 
     service.intercept(requestMock, next).toPromise()
       .catch(error => {
-        expect(error).toEqual(new ValidationResultModel(true, 'Unexpected error', null, 500));
+        expect(error).toEqual(new ValidationResultModel('Unexpected error', null, 500));
       });
   });
 });

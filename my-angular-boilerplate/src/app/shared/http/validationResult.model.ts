@@ -1,11 +1,9 @@
 export class ValidationResultModel<TModel> {
-  hasErrors: boolean;
   message: string;
   value: TModel;
   statusCode: number;
 
-  constructor(_hasErrors?: boolean, _message?: string, _value?: TModel, _statusCode?: number) {
-    this.hasErrors = _hasErrors;
+  constructor(_message?: string, _value?: TModel, _statusCode?: number) {
     this.message = _message;
     this.value = _value;
     this.statusCode = _statusCode;

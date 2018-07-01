@@ -11,14 +11,14 @@ export class HandleExceptionsService implements HttpInterceptor {
 
   private handleExceptionByStatusCode(response: HttpErrorResponse): ValidationResultModel<any> {
     if (response.status >= 500) {
-        return new ValidationResultModel<any>(true, 'Unexpected error', null, 500);
+        return new ValidationResultModel<any>('Unexpected error', null, 500);
     } else {
         return this.formatedExceptionResponse(response);
     }
   }
 
   private formatedExceptionResponse(response: HttpErrorResponse): ValidationResultModel<any> {
-    const validationResultError = new ValidationResultModel<any>(true);
+    const validationResultError = new ValidationResultModel<any>();
     validationResultError.statusCode = response.status;
     if (response.error) {
       validationResultError.message = this.formatMessage(response.error.message);

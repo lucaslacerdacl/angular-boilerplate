@@ -9,7 +9,6 @@ export class CheckConnectionService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!navigator.onLine) {
       const validationResult = new ValidationResultModel();
-      validationResult.hasErrors = true;
       validationResult.message = 'Ocorreu um erro de conexão! Verifique se está conectado na internet!';
       return Observable.throw(validationResult);
     }

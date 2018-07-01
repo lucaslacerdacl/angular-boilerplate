@@ -19,7 +19,6 @@ describe('CheckConnectionService', () => {
 
     const navigatorSpy = spyOnProperty<Navigator>(navigator, 'onLine').and.returnValue(false);
     const validationResult = new ValidationResultModel();
-    validationResult.hasErrors = true;
     validationResult.message = 'Ocorreu um erro de conexão! Verifique se está conectado na internet!';
 
     const result = service.intercept(requestMock, next);
