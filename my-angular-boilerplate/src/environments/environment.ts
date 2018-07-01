@@ -5,6 +5,5 @@
 
 export const environment = {
   production: false,
-  baseUrl: '',
-  subscriptionKey: ''
+  baseUrl: ''
 };

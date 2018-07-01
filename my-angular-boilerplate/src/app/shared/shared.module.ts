@@ -10,6 +10,7 @@ import { NotificationService } from './notification/implementations/swal/notific
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpService } from './http/implementations/angularHttpClient/http.service';
 import { HandleExceptionsService } from './interceptors/handleExceptions.interceptor';
+import { SetAuthorizationHeadersService } from './interceptors/setAuthorizationHeaders.interceptor';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { HandleExceptionsService } from './interceptors/handleExceptions.interce
     { provide: 'INotificationSuccess', useClass: NotificationService },
     { provide: 'IHttpService', useClass: HttpService },
     { provide: HTTP_INTERCEPTORS, useClass: CheckConnectionService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: SetAuthorizationHeadersService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SetLoadingService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedResponseService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HandleExceptionsService, multi: true }
