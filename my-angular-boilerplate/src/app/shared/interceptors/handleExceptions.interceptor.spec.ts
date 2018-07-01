@@ -1,5 +1,3 @@
-import { TestBed, inject } from '@angular/core/testing';
-
 import { HandleExceptionsService } from './handleExceptions.interceptor';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { ValidationResultModel } from '../http/validationResult.model';
@@ -15,7 +13,7 @@ describe('HandleExceptionsService', () => {
   });
 
   it('should be in catch, response status 400 (Bad Request)', () => {
-    const backendCustomException = new ValidationResultModel(true, 'Ocorreu um erro! Preencha todos os campos', null, 400);
+    const backendCustomException = new ValidationResultModel(true, 'Please fill all fields.', null, 400);
     const httpError = new HttpErrorResponse({
       error: backendCustomException,
       status: 400
@@ -34,16 +32,20 @@ describe('HandleExceptionsService', () => {
 
   });
 
-  // TO DO: Create test about 404
+  it('should be in catch, response status 500 (Internal Server Error)', () => {
+    const httpError = new HttpErrorResponse({
+      status: 500
+    });
+    const next: any = {
+      handle: () => ({
+        catch: (callback: Function) => callback(httpError)
+      })
+    };
+    const requestMock = new HttpRequest('GET', '/test');
 
-  // TO DO: Create test about 500
-
-  /* TO DO:
-   * Create test about another response code verifying the hasError property.
-   * Case true return exception containning message.
-   * Case false return success with value and message.
-   * Think about the enviromnet.
-   * Case develop include the exception.
-   * Case production exclude the excpetion and handle the message in a better way.
-   */
+    service.intercept(requestMock, next).toPromise()
+      .catch(error => {
+        expect(error).toEqual(new ValidationResultModel(true, 'Unexpected error', null, 500));
+      });
+  });
 });
