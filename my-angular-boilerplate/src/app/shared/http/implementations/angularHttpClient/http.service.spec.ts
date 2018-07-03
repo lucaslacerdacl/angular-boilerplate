@@ -72,7 +72,7 @@ describe('HttpService', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'get')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
-    const result = service.getAsync<OutputTest>('test', { 'HideLoading': 'true' });
+    const result = service.getAsync<OutputTest>('test', null, { 'HideLoading': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers: { 'HideLoading': 'true' } });
@@ -101,10 +101,45 @@ describe('HttpService', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'get')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
-    const result = service.getAsync<OutputTest>('test', { 'DisableUnauthorizedInterceptor': 'true' });
+    const result = service.getAsync<OutputTest>('test', null, { 'DisableUnauthorizedInterceptor': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers: { 'DisableUnauthorizedInterceptor': 'true' } });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call GET method with params, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'get')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const result = service.getAsync<OutputTest>('test', { 'Name': 'Tony Stark' });
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { params: { 'Name': 'Tony Stark' } });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call GET method with params, disable unauthorized interceptor, hide loading, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'get')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const result = service.getAsync<OutputTest>('test',
+      { 'Name': 'Tony Stark' },
+      { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, {
+      params: { 'Name': 'Tony Stark' },
+      headers: { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' }
+    });
 
     result
       .then(success => {
@@ -133,7 +168,7 @@ describe('HttpService', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'post')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
-    const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest, { 'HideLoading': 'true' });
+    const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest, null, { 'HideLoading': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
@@ -164,7 +199,7 @@ describe('HttpService', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'post')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
-    const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest, { 'DisableUnauthorizedInterceptor': 'true' });
+    const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest, null, { 'DisableUnauthorizedInterceptor': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
@@ -176,6 +211,45 @@ describe('HttpService', () => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
+
+  it('should call POST method with params, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'post')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest, { 'Name': 'Tony Stark' });
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      JSON.stringify(requestInputTest),
+      { params: { 'Name': 'Tony Stark' } });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call POST method with params, disable unauthorized interceptor, hide loading, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'post')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest,
+    { 'Name': 'Tony Stark' },
+    { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      JSON.stringify(requestInputTest), {
+        params: { 'Name': 'Tony Stark' },
+        headers: { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' }
+      });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
 
 
 
@@ -198,7 +272,7 @@ describe('HttpService', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
-    const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest, { 'HideLoading': 'true' });
+    const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest, null, { 'HideLoading': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
@@ -229,12 +303,53 @@ describe('HttpService', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
-    const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest, { 'DisableUnauthorizedInterceptor': 'true' });
+    // tslint:disable-next-line:max-line-length
+    const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest, null, { 'DisableUnauthorizedInterceptor': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
       JSON.stringify(requestInputTest),
       { headers: { 'DisableUnauthorizedInterceptor': 'true' } });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call PUT method with model and params, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    // tslint:disable-next-line:max-line-length
+    const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest, { 'Name': 'Tony Stark' });
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      JSON.stringify(requestInputTest),
+      { params: { 'Name': 'Tony Stark' } });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call PUT method with model, params, disable unauthorized interceptor, hide loading, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    // tslint:disable-next-line:max-line-length
+    const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest,
+    { 'Name': 'Tony Stark' },
+    { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      JSON.stringify(requestInputTest), {
+        params: { 'Name': 'Tony Stark' },
+        headers: { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' }
+      });
 
     result
       .then(success => {
@@ -263,7 +378,7 @@ describe('HttpService', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
-    const result = service.putAsync<OutputTest>('test', { 'HideLoading': 'true' });
+    const result = service.putAsync<OutputTest>('test', null, { 'HideLoading': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
@@ -293,7 +408,7 @@ describe('HttpService', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
-    const result = service.putAsync<OutputTest>('test', { 'DisableUnauthorizedInterceptor': 'true' });
+    const result = service.putAsync<OutputTest>('test', null, { 'DisableUnauthorizedInterceptor': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
@@ -305,6 +420,42 @@ describe('HttpService', () => {
       });
   });
 
+  it('should call PUT method with params, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const result = service.putAsync<OutputTest>('test', { 'Name': 'Tony Stark' });
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      { params: { 'Name': 'Tony Stark' } });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call PUT method with params, disable unauthorized interceptor, hide loading and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const result = service.putAsync<OutputTest>('test',
+    { 'Name': 'Tony Stark' },
+    { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
+      {
+        params: { 'Name': 'Tony Stark' },
+        headers: { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' }
+      });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
 
 
   it('should call DELETE method and return success', () => {
@@ -326,7 +477,7 @@ describe('HttpService', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
-    const result = service.deleteAsync<OutputTest>('test', { 'HideLoading': 'true' });
+    const result = service.deleteAsync<OutputTest>('test', null, { 'HideLoading': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers: { 'HideLoading': 'true' } });
@@ -351,14 +502,49 @@ describe('HttpService', () => {
       });
   });
 
-  it('should call DELETE method with hide loading, and return success', () => {
+  it('should call DELETE method with disable unauthorized interceptor, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
-    const result = service.deleteAsync<OutputTest>('test', { 'DisableUnauthorizedInterceptor': 'true' });
+    const result = service.deleteAsync<OutputTest>('test', null, { 'DisableUnauthorizedInterceptor': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers: { 'DisableUnauthorizedInterceptor': 'true' } });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call DELETE method with params, and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const result = service.deleteAsync<OutputTest>('test', { 'Name': 'Tony Stark' });
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { params: { 'Name': 'Tony Stark' } });
+
+    result
+      .then(success => {
+        expect(success.value).toEqual(responseSuccessForRequestMock.value);
+      });
+  });
+
+  it('should call DELETE method with params, disable unauthorized interceptor, hide loading and return success', () => {
+    const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
+      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+
+    const result = service.deleteAsync<OutputTest>('test',
+    { 'Name': 'Tony Stark' },
+    { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
+
+    expect(httpSpy).toHaveBeenCalledTimes(1);
+    expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, {
+      params: { 'Name': 'Tony Stark' },
+      headers: { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' }
+    });
 
     result
       .then(success => {

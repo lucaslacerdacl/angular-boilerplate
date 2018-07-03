@@ -10,55 +10,58 @@ export class HttpService implements IHttpService {
 
   constructor(private http: HttpClient) { }
 
-  private getOptions(customHeaders?: { [name: string]: string }): object {
+  private getOptions(params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): object {
+    const options = {};
     if (customHeaders) {
-      return { headers: customHeaders };
-    } else {
-      return {};
+      Object.assign(options, { headers: customHeaders });
     }
-
+    if (params) {
+      Object.assign(options, { params: params });
+    }
+    return options;
   }
 
   private methodUrl(method: string): string {
     return `${environment.baseUrl}/${method}`;
   }
 
-  public async getAsync<OutputModel>(url: string, customHeaders?: { [name: string]: string }):
-    Promise<ValidationResultModel<OutputModel>> {
+  // tslint:disable-next-line:max-line-length
+  public async getAsync<OutputModel>(url: string, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): Promise<ValidationResultModel<OutputModel>> {
     const result = await this.http.get<ValidationResultModel<OutputModel>>(this.methodUrl(url),
-      this.getOptions(customHeaders))
+      this.getOptions(params, customHeaders))
       .toPromise();
     return result;
   }
 
-  public async postAsync<InputModel, OutputModel>(url: string, model: InputModel, customHeaders?: { [name: string]: string }):
-    Promise<ValidationResultModel<OutputModel>> {
+  // tslint:disable-next-line:max-line-length
+  public async postAsync<InputModel, OutputModel>(url: string, model: InputModel, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): Promise<ValidationResultModel<OutputModel>> {
     const result = await this.http.post<ValidationResultModel<OutputModel>>(this.methodUrl(url),
-      JSON.stringify(model), this.getOptions(customHeaders))
+      JSON.stringify(model), this.getOptions(params, customHeaders))
       .toPromise();
     return result;
   }
 
-  public async putModelAsync<InputModel, OutputModel>(url: string, model: InputModel, customHeaders?: { [name: string]: string }):
+  // tslint:disable-next-line:max-line-length
+  public async putModelAsync<InputModel, OutputModel>(url: string, model: InputModel, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }):
     Promise<ValidationResultModel<OutputModel>> {
     const result = await this.http.put<ValidationResultModel<OutputModel>>(this.methodUrl(url),
-        JSON.stringify(model), this.getOptions(customHeaders))
+        JSON.stringify(model), this.getOptions(params, customHeaders))
         .toPromise();
     return result;
   }
 
-  public async putAsync<OutputModel>(url: string, customHeaders?: { [name: string]: string }):
-    Promise<ValidationResultModel<OutputModel>> {
+  // tslint:disable-next-line:max-line-length
+  public async putAsync<OutputModel>(url: string, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): Promise<ValidationResultModel<OutputModel>> {
     const result = await this.http.put<ValidationResultModel<OutputModel>>(this.methodUrl(url),
-      this.getOptions(customHeaders))
+      this.getOptions(params, customHeaders))
       .toPromise();
     return result;
   }
 
-  public async deleteAsync<OutputModel>(url: string, customHeaders?: { [name: string]: string }):
-    Promise<ValidationResultModel<OutputModel>> {
+  // tslint:disable-next-line:max-line-length
+  public async deleteAsync<OutputModel>(url: string, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): Promise<ValidationResultModel<OutputModel>> {
     const result = await this.http.delete<ValidationResultModel<OutputModel>>(this.methodUrl(url),
-      this.getOptions(customHeaders))
+      this.getOptions(params, customHeaders))
       .toPromise();
     return result;
   }
