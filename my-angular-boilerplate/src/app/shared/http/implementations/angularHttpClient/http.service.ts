@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
 import { ValidationResultModel } from '../.././validationResult.model';
 import { IHttpService } from '../../interfaces/IHttpService';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
@@ -26,43 +27,38 @@ export class HttpService implements IHttpService {
   }
 
   // tslint:disable-next-line:max-line-length
-  public async getAsync<OutputModel>(url: string, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): Promise<ValidationResultModel<OutputModel>> {
-    const result = await this.http.get<ValidationResultModel<OutputModel>>(this.methodUrl(url),
-      this.getOptions(params, customHeaders))
-      .toPromise();
+  public getAsync<OutputModel>(url: string, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): Observable<ValidationResultModel<OutputModel>> {
+    const result = this.http.get<ValidationResultModel<OutputModel>>(this.methodUrl(url),
+      this.getOptions(params, customHeaders));
     return result;
   }
 
   // tslint:disable-next-line:max-line-length
-  public async postAsync<InputModel, OutputModel>(url: string, model: InputModel, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): Promise<ValidationResultModel<OutputModel>> {
-    const result = await this.http.post<ValidationResultModel<OutputModel>>(this.methodUrl(url),
-      JSON.stringify(model), this.getOptions(params, customHeaders))
-      .toPromise();
+  public postAsync<InputModel, OutputModel>(url: string, model: InputModel, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): Observable<ValidationResultModel<OutputModel>> {
+    // tslint:disable-next-line:max-line-length
+    const result = this.http.post<ValidationResultModel<OutputModel>>(this.methodUrl(url), JSON.stringify(model), this.getOptions(params, customHeaders));
     return result;
   }
 
   // tslint:disable-next-line:max-line-length
-  public async putModelAsync<InputModel, OutputModel>(url: string, model: InputModel, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }):
-    Promise<ValidationResultModel<OutputModel>> {
-    const result = await this.http.put<ValidationResultModel<OutputModel>>(this.methodUrl(url),
-        JSON.stringify(model), this.getOptions(params, customHeaders))
-        .toPromise();
+  public putModelAsync<InputModel, OutputModel>(url: string, model: InputModel, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }):
+    Observable<ValidationResultModel<OutputModel>> {
+    const result = this.http.put<ValidationResultModel<OutputModel>>(this.methodUrl(url),
+        JSON.stringify(model), this.getOptions(params, customHeaders));
     return result;
   }
 
   // tslint:disable-next-line:max-line-length
-  public async putAsync<OutputModel>(url: string, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): Promise<ValidationResultModel<OutputModel>> {
-    const result = await this.http.put<ValidationResultModel<OutputModel>>(this.methodUrl(url),
-      this.getOptions(params, customHeaders))
-      .toPromise();
+  public putAsync<OutputModel>(url: string, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): Observable<ValidationResultModel<OutputModel>> {
+    const result = this.http.put<ValidationResultModel<OutputModel>>(this.methodUrl(url),
+      this.getOptions(params, customHeaders));
     return result;
   }
 
   // tslint:disable-next-line:max-line-length
-  public async deleteAsync<OutputModel>(url: string, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): Promise<ValidationResultModel<OutputModel>> {
-    const result = await this.http.delete<ValidationResultModel<OutputModel>>(this.methodUrl(url),
-      this.getOptions(params, customHeaders))
-      .toPromise();
+  public deleteAsync<OutputModel>(url: string, params?: { [param: string]: string }, customHeaders?: { [name: string]: string }): Observable<ValidationResultModel<OutputModel>> {
+    const result = this.http.delete<ValidationResultModel<OutputModel>>(this.methodUrl(url),
+      this.getOptions(params, customHeaders));
     return result;
   }
 

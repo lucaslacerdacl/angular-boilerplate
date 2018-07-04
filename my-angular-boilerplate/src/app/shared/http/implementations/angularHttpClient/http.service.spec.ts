@@ -63,7 +63,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, {});
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -78,7 +78,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers: { 'HideLoading': 'true' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -92,7 +92,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, {});
 
     result
-      .catch(error => {
+      .subscribe(() => { }, error => {
         expect(error).toEqual(responseErrorMock);
       });
   });
@@ -107,7 +107,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers: { 'DisableUnauthorizedInterceptor': 'true' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -122,7 +122,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { params: { 'Name': 'Tony Stark' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -142,7 +142,7 @@ describe('HttpService', () => {
     });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -159,7 +159,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, JSON.stringify(requestInputTest), {});
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -176,7 +176,7 @@ describe('HttpService', () => {
       { headers: { 'HideLoading': 'true' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -190,7 +190,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, JSON.stringify(requestInputTest), {});
 
     result
-      .catch(error => {
+      .subscribe(() => { }, error => {
         expect(error).toEqual(responseErrorMock);
       });
   });
@@ -207,7 +207,7 @@ describe('HttpService', () => {
       { headers: { 'DisableUnauthorizedInterceptor': 'true' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -224,7 +224,7 @@ describe('HttpService', () => {
       { params: { 'Name': 'Tony Stark' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -234,8 +234,8 @@ describe('HttpService', () => {
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest,
-    { 'Name': 'Tony Stark' },
-    { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
+      { 'Name': 'Tony Stark' },
+      { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
@@ -245,7 +245,7 @@ describe('HttpService', () => {
       });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -263,7 +263,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, JSON.stringify(requestInputTest), {});
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -280,7 +280,7 @@ describe('HttpService', () => {
       { headers: { 'HideLoading': 'true' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -294,7 +294,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, JSON.stringify(requestInputTest), {});
 
     result
-      .catch(error => {
+      .subscribe(() => { }, error => {
         expect(error).toEqual(responseErrorMock);
       });
   });
@@ -312,7 +312,7 @@ describe('HttpService', () => {
       { headers: { 'DisableUnauthorizedInterceptor': 'true' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -330,7 +330,7 @@ describe('HttpService', () => {
       { params: { 'Name': 'Tony Stark' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -341,8 +341,8 @@ describe('HttpService', () => {
 
     // tslint:disable-next-line:max-line-length
     const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest,
-    { 'Name': 'Tony Stark' },
-    { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
+      { 'Name': 'Tony Stark' },
+      { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
@@ -352,7 +352,7 @@ describe('HttpService', () => {
       });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -369,7 +369,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, {});
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -385,7 +385,7 @@ describe('HttpService', () => {
       { headers: { 'HideLoading': 'true' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -399,7 +399,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, {});
 
     result
-      .catch(error => {
+      .subscribe(() => { }, error => {
         expect(error).toEqual(responseErrorMock);
       });
   });
@@ -415,7 +415,7 @@ describe('HttpService', () => {
       { headers: { 'DisableUnauthorizedInterceptor': 'true' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -431,7 +431,7 @@ describe('HttpService', () => {
       { params: { 'Name': 'Tony Stark' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -441,8 +441,8 @@ describe('HttpService', () => {
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.putAsync<OutputTest>('test',
-    { 'Name': 'Tony Stark' },
-    { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
+      { 'Name': 'Tony Stark' },
+      { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`,
@@ -452,7 +452,7 @@ describe('HttpService', () => {
       });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -468,7 +468,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, {});
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -483,7 +483,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers: { 'HideLoading': 'true' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -497,7 +497,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, {});
 
     result
-      .catch(error => {
+      .subscribe(() => { }, error => {
         expect(error).toEqual(responseErrorMock);
       });
   });
@@ -512,7 +512,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { headers: { 'DisableUnauthorizedInterceptor': 'true' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -527,7 +527,7 @@ describe('HttpService', () => {
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, { params: { 'Name': 'Tony Stark' } });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
@@ -537,8 +537,8 @@ describe('HttpService', () => {
       .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.deleteAsync<OutputTest>('test',
-    { 'Name': 'Tony Stark' },
-    { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
+      { 'Name': 'Tony Stark' },
+      { 'DisableUnauthorizedInterceptor': 'true', 'HideLoading': 'true' });
 
     expect(httpSpy).toHaveBeenCalledTimes(1);
     expect(httpSpy).toHaveBeenCalledWith(`${environment.baseUrl}/test`, {
@@ -547,7 +547,7 @@ describe('HttpService', () => {
     });
 
     result
-      .then(success => {
+      .subscribe(success => {
         expect(success.value).toEqual(responseSuccessForRequestMock.value);
       });
   });
