@@ -28,7 +28,3 @@ install:
 
 script:
   - npm run ci:travis
-  - npm install codecov -g
-
-after_success:
-  - codecov
