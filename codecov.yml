@@ -1,6 +1,7 @@
 codecov:
   notify:
     require_ci_to_pass: yes
+    token: 02b6378e-c1ca-4c03-a2a5-1143a707d178
 
 coverage:
   precision: 2
@@ -13,8 +14,6 @@ coverage:
     changes: no
 
 parsers:
-  javascript:
-      enable_partials: yes
   gcov:
     branch_detection:
       conditional: yes
