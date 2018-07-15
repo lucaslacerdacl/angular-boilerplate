@@ -1,8 +1,8 @@
-import { ILocalStorage } from './../../interfaces/ILocalStorage';
+import { ILocalStorageService } from '../../interfaces/ILocalStorage';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class LocalStorageService implements ILocalStorage {
+export class LocalStorageService implements ILocalStorageService {
 
   private encrypt(valueToBeEncrypted: string): string {
     return btoa(valueToBeEncrypted);
@@ -15,7 +15,7 @@ export class LocalStorageService implements ILocalStorage {
   setValueByKey(key: string, value: string) {
     localStorage.setItem(this.encrypt(key), this.encrypt(value));
   }
-  getValueByKey(key: string) {
+  getValueByKey(key: string): string {
     return localStorage.getItem(this.encrypt(key)) ? this.decrypt(localStorage.getItem(this.encrypt(key))) : '';
   }
 }

@@ -1,7 +1,7 @@
 import { HttpService } from './http.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
-import { ValidationResultModel } from '../.././validationResult.model';
+import { ValidationResultModel } from '../../validationResult.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 

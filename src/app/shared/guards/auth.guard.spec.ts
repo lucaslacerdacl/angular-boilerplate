@@ -1,4 +1,4 @@
-import { LocalStorageService } from './../storage/implementations/localStorage/localStorage.service';
+import { LocalStorageService } from '../storage/implementations/localStorage/localStorage.service';
 
 import { AuthGuard } from './auth.guard';
 
