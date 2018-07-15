@@ -1,17 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { ValidationResultModel } from '../http/validationResult.model';
+import { ITranslationService } from '../translation/services/interfaces/ITranslationService';
+import { TranslationPathEnum } from '../translation/resources/translationPath.enum';
+import { TranslationLocaleEnum } from '../translation/resources/translationLocale.enum';
 
 @Injectable()
 export class HandleExceptionsService implements HttpInterceptor {
 
-  constructor() { }
+  constructor(@Inject('ITranslationService') private _ITranslationService: ITranslationService) { }
 
   private handleExceptionByStatusCode(response: HttpErrorResponse): ValidationResultModel<any> {
     if (response.status >= 500) {
-        return new ValidationResultModel<any>('Unexpected error', null, 500);
+        // tslint:disable-next-line:max-line-length
+        const message = this._ITranslationService.getResource(TranslationPathEnum.interceptorsHandleExceptions, 'UnexpectedError', TranslationLocaleEnum.enUS);
+        return new ValidationResultModel<any>(message, null, 500);
     } else {
         return this.formatedExceptionResponse(response);
     }
@@ -31,7 +36,8 @@ export class HandleExceptionsService implements HttpInterceptor {
   }
 
   private formatMessage(message?: string): string {
-    return message ? message : 'Please contact us';
+    // tslint:disable-next-line:max-line-length
+    return message ? message : this._ITranslationService.getResource(TranslationPathEnum.interceptorsHandleExceptions, 'PleaseContactUs', TranslationLocaleEnum.enUS);
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

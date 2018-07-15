@@ -1,4 +1,4 @@
-import { INotificationLoading } from './../notification/interfaces/INotificationLoading';
+import { INotificationLoading } from '../notification/interfaces/INotificationLoading';
 import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';

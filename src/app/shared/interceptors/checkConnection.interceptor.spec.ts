@@ -2,11 +2,19 @@ import { Observable } from 'rxjs/Observable';
 import { HttpRequest } from '@angular/common/http';
 import { CheckConnectionService } from './checkConnection.interceptor';
 import { ValidationResultModel } from '../http/validationResult.model';
+import { TranslationService } from '../translation/services/implementations/translation.service';
+import { LocalStorageService } from '../storage/implementations/localStorage/localStorage.service';
+import { TranslationPathEnum } from '../translation/resources/translationPath.enum';
+import { TranslationLocaleEnum } from '../translation/resources/translationLocale.enum';
 
 describe('CheckConnectionService', () => {
   let service: CheckConnectionService;
+  let translationService: TranslationService;
+  let localStorageService: LocalStorageService;
   beforeEach(() => {
-    service = new CheckConnectionService();
+    localStorageService = new LocalStorageService();
+    translationService = new TranslationService(localStorageService);
+    service = new CheckConnectionService(translationService);
   });
 
   it('should be created CheckConnectionService', () => {
@@ -19,7 +27,7 @@ describe('CheckConnectionService', () => {
 
     const navigatorSpy = spyOnProperty<Navigator>(navigator, 'onLine').and.returnValue(false);
     const validationResult = new ValidationResultModel();
-    validationResult.message = 'Ocorreu um erro de conexão! Verifique se está conectado na internet!';
+    validationResult.message = 'A connection error has occurred! Make sure you are connected on the internet!';
 
     const result = service.intercept(requestMock, next);
 

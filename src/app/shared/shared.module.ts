@@ -11,6 +11,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpService } from './http/implementations/angularHttpClient/http.service';
 import { HandleExceptionsService } from './interceptors/handleExceptions.interceptor';
 import { SetAuthorizationHeadersService } from './interceptors/setAuthorizationHeaders.interceptor';
+import { TranslationDirective } from './translation/components/translation.directive';
+import { TranslationService } from './translation/services/implementations/translation.service';
 
 @NgModule({
   imports: [
@@ -18,10 +20,10 @@ import { SetAuthorizationHeadersService } from './interceptors/setAuthorizationH
     BrowserModule,
     HttpClientModule
   ],
-  declarations: [],
+  declarations: [TranslationDirective],
   providers: [
     AuthGuard,
-    { provide: 'ILocalStorage', useClass: LocalStorageService },
+    { provide: 'ILocalStorageService', useClass: LocalStorageService },
     { provide: 'INotificationAlert', useClass: NotificationService },
     { provide: 'INotificationError', useClass: NotificationService },
     { provide: 'INotificationInfo', useClass: NotificationService },
@@ -30,6 +32,7 @@ import { SetAuthorizationHeadersService } from './interceptors/setAuthorizationH
     { provide: 'INotificationSuccess', useClass: NotificationService },
     { provide: 'INotificationSuccess', useClass: NotificationService },
     { provide: 'IHttpService', useClass: HttpService },
+    { provide: 'ITranslationService', useClass: TranslationService },
     { provide: HTTP_INTERCEPTORS, useClass: CheckConnectionService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SetAuthorizationHeadersService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SetLoadingService, multi: true },

@@ -1,11 +1,11 @@
 import { SetAuthorizationHeadersService } from './setAuthorizationHeaders.interceptor';
-import { ILocalStorage } from '../storage/interfaces/ILocalStorage';
+import { ILocalStorageService } from '../storage/interfaces/ILocalStorage';
 import { LocalStorageService } from '../storage/implementations/localStorage/localStorage.service';
 import { HttpRequest, HttpHeaders } from '@angular/common/http';
 
 describe('SetAuthorizationHeadersService', () => {
   let service: SetAuthorizationHeadersService;
-  let localStorage: ILocalStorage;
+  let localStorage: ILocalStorageService;
   beforeEach(() => {
     localStorage = new LocalStorageService();
     service = new SetAuthorizationHeadersService(localStorage);
@@ -18,7 +18,7 @@ describe('SetAuthorizationHeadersService', () => {
   it('should add headers in request', () => {
     const next: any = { handle: jasmine.createSpy('handle') };
     const requestMock = new HttpRequest('GET', '/test');
-    const localStorageSpy = spyOn<ILocalStorage>(localStorage, 'getValueByKey').and.returnValue('jsbnfuldfbx9d73bnc7w==');
+    const localStorageSpy = spyOn<ILocalStorageService>(localStorage, 'getValueByKey').and.returnValue('jsbnfuldfbx9d73bnc7w==');
 
     service.intercept(requestMock, next);
 

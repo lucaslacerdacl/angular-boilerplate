@@ -1,11 +1,19 @@
 import { HandleExceptionsService } from './handleExceptions.interceptor';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { ValidationResultModel } from '../http/validationResult.model';
+import { LocalStorageService } from '../storage/implementations/localStorage/localStorage.service';
+import { TranslationService } from '../translation/services/implementations/translation.service';
+import { TranslationPathEnum } from '../translation/resources/translationPath.enum';
+import { TranslationLocaleEnum } from '../translation/resources/translationLocale.enum';
 
 describe('HandleExceptionsService', () => {
   let service: HandleExceptionsService;
+  let translationService: TranslationService;
+  let localStorageService: LocalStorageService;
   beforeEach(() => {
-    service = new HandleExceptionsService();
+    localStorageService = new LocalStorageService();
+    translationService = new TranslationService(localStorageService);
+    service = new HandleExceptionsService(translationService);
   });
 
   it('should be created', () => {

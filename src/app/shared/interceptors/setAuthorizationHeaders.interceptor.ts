@@ -1,12 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
-import { ILocalStorage } from '../storage/interfaces/ILocalStorage';
+import { ILocalStorageService } from '../storage/interfaces/ILocalStorage';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SetAuthorizationHeadersService implements HttpInterceptor {
 
-  constructor(@Inject('ILocalStorage') private _ILocalStorageService: ILocalStorage ) { }
+  constructor(@Inject('ILocalStorageService') private _ILocalStorageService: ILocalStorageService ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const _req = req.clone({ setHeaders: {'Authorization': `bearer ${this._ILocalStorageService.getValueByKey('token')}` }});

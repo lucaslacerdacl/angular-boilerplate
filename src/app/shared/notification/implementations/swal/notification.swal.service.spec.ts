@@ -1,12 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { NotificationService } from './notification.swal.service';
+import { TranslationService } from '../../../translation/services/implementations/translation.service';
+import { LocalStorageService } from '../../../storage/implementations/localStorage/localStorage.service';
 
 describe('NotificationService', () => {
 
   let service: NotificationService;
-
+  let translationService: TranslationService;
+  let localStorageService: LocalStorageService;
   beforeEach(() => {
-    service = new NotificationService();
+    localStorageService = new LocalStorageService();
+    translationService = new TranslationService(localStorageService);
+    service = new NotificationService(translationService);
   });
 
   it('should be created NotificationService', () => {
@@ -32,11 +37,11 @@ describe('NotificationService', () => {
     const getSwal = spyOn(swal, 'default').and.returnValue(new Promise<any>(() => {}));
     service.showQuestionNotification('Teste');
     expect(getSwal).toHaveBeenCalledWith({
-      title: 'Dúvida!',
+      title: 'Doubt',
       text: 'Teste',
       showCancelButton: true,
-      confirmButtonText: 'Sim',
-      cancelButtonText: 'Não'
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
     });
   });
 
@@ -44,27 +49,27 @@ describe('NotificationService', () => {
     const swal = require('sweetalert2');
     const getSwal = spyOn(swal, 'default').and.returnValue(new Promise<any>(() => {}));
     service.showInfoNotification('Teste');
-    expect(getSwal).toHaveBeenCalledWith({title: 'Informação!', text: 'Teste'});
+    expect(getSwal).toHaveBeenCalledWith({title: 'Information', text: 'Teste'});
   });
 
   it('should show alert', () => {
     const swal = require('sweetalert2');
     const getSwal = spyOn(swal, 'default').and.returnValue(new Promise<any>(() => {}));
     service.showAlertNotification('Teste');
-    expect(getSwal).toHaveBeenCalledWith({title: 'Atenção!', text: 'Teste'});
+    expect(getSwal).toHaveBeenCalledWith({title: 'Attention', text: 'Teste'});
   });
 
   it('should show error', () => {
     const swal = require('sweetalert2');
     const getSwal = spyOn(swal, 'default').and.returnValue(new Promise<any>(() => {}));
     service.showErrorNotification('Teste');
-    expect(getSwal).toHaveBeenCalledWith({title: 'Erro!', text: 'Teste'});
+    expect(getSwal).toHaveBeenCalledWith({title: 'Error', text: 'Teste'});
   });
 
   it('should show success', () => {
     const swal = require('sweetalert2');
     const getSwal = spyOn(swal, 'default').and.returnValue(new Promise<any>(() => {}));
     service.showSuccessNotification('Teste');
-    expect(getSwal).toHaveBeenCalledWith({title: 'Sucesso!', text: 'Teste'});
+    expect(getSwal).toHaveBeenCalledWith({title: 'Success', text: 'Teste'});
   });
 });

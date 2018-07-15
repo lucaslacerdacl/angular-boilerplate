@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
-import { ValidationResultModel } from '../.././validationResult.model';
+import { ValidationResultModel } from '../../validationResult.model';
 import { IHttpService } from '../../interfaces/IHttpService';
 import { Observable } from 'rxjs/Observable';
 
