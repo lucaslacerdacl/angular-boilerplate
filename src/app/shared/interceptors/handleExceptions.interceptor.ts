@@ -3,9 +3,9 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpInterceptor
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { ValidationResultModel } from '../http/validationResult.model';
-import { ITranslationService } from '../translation/services/interfaces/ITranslationService';
-import { TranslationPathEnum } from '../translation/resources/translationPath.enum';
-import { TranslationLocaleEnum } from '../translation/resources/translationLocale.enum';
+import { ITranslationService } from '../i18n/service/interfaces/ITranslationService';
+import { TranslationPathEnum } from '../i18n/resources/translationPath.enum';
+import { TranslationLocaleEnum } from '../i18n/resources/translationLocale.enum';
 
 @Injectable()
 export class HandleExceptionsService implements HttpInterceptor {

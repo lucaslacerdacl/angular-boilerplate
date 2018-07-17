@@ -2,9 +2,9 @@ import { ValidationResultModel } from '../http/validationResult.model';
 import { Observable } from 'rxjs/Observable';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
-import { ITranslationService } from '../translation/services/interfaces/ITranslationService';
-import { TranslationPathEnum } from '../translation/resources/translationPath.enum';
-import { TranslationLocaleEnum } from '../translation/resources/translationLocale.enum';
+import { ITranslationService } from '../i18n/service/interfaces/ITranslationService';
+import { TranslationPathEnum } from '../i18n/resources/translationPath.enum';
+import { TranslationLocaleEnum } from '../i18n/resources/translationLocale.enum';
 
 @Injectable()
 export class CheckConnectionService implements HttpInterceptor {
