@@ -14,15 +14,10 @@ module.exports = function (config) {
       require('karma-junit-reporter')
     ],
     client:{
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
-    },
-    coverageReporter: {
-      type : 'cobertura',
-      dir: 'coverage',
-      subdir: '.'
+      clearContext: false
     },
     coverageIstanbulReporter: {
-      reports: [ 'html', 'lcovonly', 'cobertura'],
+      reports: [ 'cobertura', 'html'],
       fixWebpackSourcePaths: true
     },
     angularCli: {
