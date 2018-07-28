@@ -7,7 +7,7 @@ import { HttpRequest, HttpHeaders } from '@angular/common/http';
 import { NotificationService } from '../notification/implementations/swal/notification.swal.service';
 import { INotificationLoading } from '../notification/interfaces/INotificationLoading';
 import { LocalStorageService } from '../storage/implementations/localStorage/localStorage.service';
-import { TranslationService } from '../translation/services/implementations/translation.service';
+import { TranslationService } from '../i18n/service/implementations/translation.service';
 
 describe('SetLoadingService', () => {
   let notification: NotificationService;

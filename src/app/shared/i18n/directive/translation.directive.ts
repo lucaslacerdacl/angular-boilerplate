@@ -1,6 +1,6 @@
 import { Directive, Input, Inject, ElementRef, OnInit } from '@angular/core';
 import { TranslationLocaleEnum } from '../resources/translationLocale.enum';
-import { ITranslationService } from '../services/interfaces/ITranslationService';
+import { ITranslationService } from '../service/interfaces/ITranslationService';
 import { TranslationPathEnum } from '../resources/translationPath.enum';
 
 @Directive({

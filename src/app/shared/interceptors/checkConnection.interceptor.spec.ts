@@ -2,10 +2,10 @@ import { Observable } from 'rxjs/Observable';
 import { HttpRequest } from '@angular/common/http';
 import { CheckConnectionService } from './checkConnection.interceptor';
 import { ValidationResultModel } from '../http/validationResult.model';
-import { TranslationService } from '../translation/services/implementations/translation.service';
+import { TranslationService } from '../i18n/service/implementations/translation.service';
 import { LocalStorageService } from '../storage/implementations/localStorage/localStorage.service';
-import { TranslationPathEnum } from '../translation/resources/translationPath.enum';
-import { TranslationLocaleEnum } from '../translation/resources/translationLocale.enum';
+import { TranslationPathEnum } from '../i18n/resources/translationPath.enum';
+import { TranslationLocaleEnum } from '../i18n/resources/translationLocale.enum';
 
 describe('CheckConnectionService', () => {
   let service: CheckConnectionService;

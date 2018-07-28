@@ -5,8 +5,6 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
-    "dev-build": "ng build --dev",
     "test": "ng test --code-coverage --watch=false --singleRun=true --browsers=ChromeHeadless",
     "dev-test": "ng test --code-coverage --browsers=Chrome",
     "lint": "ng lint",

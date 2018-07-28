@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { NotificationService } from './notification.swal.service';
-import { TranslationService } from '../../../translation/services/implementations/translation.service';
+import { TranslationService } from '../../../i18n/service/implementations/translation.service';
 import { LocalStorageService } from '../../../storage/implementations/localStorage/localStorage.service';
 
 describe('NotificationService', () => {

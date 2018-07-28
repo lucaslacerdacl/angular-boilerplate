@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { async } from 'q';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
-import { TranslationService } from '../services/implementations/translation.service';
+import { TranslationService } from '../service/implementations/translation.service';
 import { LocalStorageService } from '../../storage/implementations/localStorage/localStorage.service';
 
 @Component({

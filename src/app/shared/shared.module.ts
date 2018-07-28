@@ -11,8 +11,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpService } from './http/implementations/angularHttpClient/http.service';
 import { HandleExceptionsService } from './interceptors/handleExceptions.interceptor';
 import { SetAuthorizationHeadersService } from './interceptors/setAuthorizationHeaders.interceptor';
-import { TranslationDirective } from './translation/components/translation.directive';
-import { TranslationService } from './translation/services/implementations/translation.service';
+import { TranslationDirective } from './i18n/directive/translation.directive';
+import { TranslationService } from './i18n/service/implementations/translation.service';
 
 @NgModule({
   imports: [
