@@ -22,7 +22,7 @@ module.exports = function (config) {
       subdir: '.'
     },
     coverageIstanbulReporter: {
-      reports: [ 'html', 'lcovonly', 'cobertura'],
+      reports: [ 'cobertura'],
       fixWebpackSourcePaths: true
     },
     angularCli: {
