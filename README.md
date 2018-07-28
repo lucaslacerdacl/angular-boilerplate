@@ -21,8 +21,6 @@ Clone the repository or download from [here](https://github.com/LucasLacerdaCL/a
     * Angular
     * Angular Material
     * SweetAlert2
-    * Travis-CI
-    * Codecov
 
 ## Versioning
 
