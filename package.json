@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "test": "ng test --code-coverage --watch=false --singleRun=true --browsers=ChromeHeadless",
+    "test": "ng test --code-coverage --watch=false --singleRun=true --browsers=ChromeHeadless && node ./codecovcss.config.js",
     "dev-test": "ng test --code-coverage --browsers=Chrome",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -49,6 +49,7 @@
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
     "typescript": "~2.5.3",
-    "typings": "^2.1.1"
+    "typings": "^2.1.1",
+    "vsts-coverage-styles": "^1.0.7"
   }
 }
