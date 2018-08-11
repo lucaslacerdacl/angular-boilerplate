@@ -24,4 +24,4 @@ Clone the repository or download from [here](https://github.com/LucasLacerdaCL/a
 
 ## Versioning
 
-* [1.0.0](https://github.com/LucasLacerdaCL/angular-boilerplate/tags)
+* [1.0.1](https://github.com/LucasLacerdaCL/angular-boilerplate/tags)
