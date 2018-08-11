@@ -4,8 +4,6 @@ import { CheckConnectionService } from './checkConnection.interceptor';
 import { ValidationResultModel } from '../http/validationResult.model';
 import { TranslationService } from '../i18n/service/implementations/translation.service';
 import { LocalStorageService } from '../storage/implementations/localStorage/localStorage.service';
-import { TranslationPathEnum } from '../i18n/resources/translationPath.enum';
-import { TranslationLocaleEnum } from '../i18n/resources/translationLocale.enum';
 
 describe('CheckConnectionService', () => {
   let service: CheckConnectionService;

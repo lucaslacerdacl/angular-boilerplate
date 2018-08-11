@@ -11,9 +11,7 @@ module.exports = function (config) {
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
       require('@angular/cli/plugins/karma'),
-      require('karma-junit-reporter'),
-      require('karma-coveralls'),
-      require('karma-coverage')
+      require('karma-junit-reporter')
     ],
     client:{
       clearContext: false
@@ -25,16 +23,12 @@ module.exports = function (config) {
     angularCli: {
       environment: 'dev'
     },
-    reporters: ['progress', 'kjhtml', 'junit', 'coverage', 'coveralls'],
+    reporters: ['progress', 'kjhtml', 'junit'],
     junitReporter: {
       outputDir: 'coverage',
       outputFile: 'TEST-JUNIT.xml',
       suite: '',
       useBrowserName: true
-    },
-    coverageReporter: {
-      type: 'lcov',
-      dir: 'coverage/'
     },
     port: 9876,
     colors: true,

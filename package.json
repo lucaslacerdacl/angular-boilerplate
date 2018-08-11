@@ -7,6 +7,7 @@
     "start": "ng serve",
     "test": "ng test --code-coverage --watch=false --singleRun=true --browsers=ChromeHeadless && node ./codecovcss.config.js",
     "dev-test": "ng test --code-coverage --browsers=Chrome",
+    "codecov": "codecov -t 02b6378e-c1ca-4c03-a2a5-1143a707d178",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -43,9 +44,7 @@
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^2.0.5",
     "karma-chrome-launcher": "~2.2.0",
-    "karma-coverage": "^1.1.2",
     "karma-coverage-istanbul-reporter": "^1.4.3",
-    "karma-coveralls": "^2.0.0",
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-junit-reporter": "^1.2.0",
