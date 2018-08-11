@@ -1,7 +1,7 @@
 import { SetAuthorizationHeadersService } from './setAuthorizationHeaders.interceptor';
 import { ILocalStorageService } from '../storage/interfaces/ILocalStorage';
 import { LocalStorageService } from '../storage/implementations/localStorage/localStorage.service';
-import { HttpRequest, HttpHeaders } from '@angular/common/http';
+import { HttpRequest } from '@angular/common/http';
 
 describe('SetAuthorizationHeadersService', () => {
   let service: SetAuthorizationHeadersService;

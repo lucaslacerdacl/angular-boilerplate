@@ -1,9 +1,7 @@
 import { TranslationDirective } from './translation.directive';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { async } from 'q';
 import { By } from '@angular/platform-browser';
-import { Observable } from 'rxjs/Observable';
 import { TranslationService } from '../service/implementations/translation.service';
 import { LocalStorageService } from '../../storage/implementations/localStorage/localStorage.service';
 

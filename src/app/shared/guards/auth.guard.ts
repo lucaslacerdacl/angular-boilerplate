@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { ILocalStorageService } from '../storage/interfaces/ILocalStorage';
-import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
