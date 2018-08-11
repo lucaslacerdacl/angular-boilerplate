@@ -16,7 +16,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
-    });
+    }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
   });
