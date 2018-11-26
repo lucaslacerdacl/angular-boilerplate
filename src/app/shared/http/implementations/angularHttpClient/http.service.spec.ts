@@ -1,9 +1,9 @@
+
+import { throwError as observableThrowError, from } from 'rxjs';
 import { HttpService } from './http.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
 import { ValidationResultModel } from '../../validationResult.model';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
 
 describe('HttpService', () => {
 
@@ -55,7 +55,7 @@ describe('HttpService', () => {
 
   it('should call GET method and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'get')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.getAsync<OutputTest>('test');
 
@@ -70,7 +70,7 @@ describe('HttpService', () => {
 
   it('should call GET method with hide loading, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'get')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.getAsync<OutputTest>('test', null, { 'HideLoading': 'true' });
 
@@ -84,7 +84,7 @@ describe('HttpService', () => {
   });
 
   it('should call GET method and return error', () => {
-    const httpSpy = spyOn<HttpClient>(httpClient, 'get').and.returnValue(Observable.throw(responseErrorMock));
+    const httpSpy = spyOn<HttpClient>(httpClient, 'get').and.returnValue(observableThrowError(responseErrorMock));
 
     const result = service.getAsync<OutputTest>('test');
 
@@ -99,7 +99,7 @@ describe('HttpService', () => {
 
   it('should call GET method with disable unauthorized interceptor, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'get')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.getAsync<OutputTest>('test', null, { 'DisableUnauthorizedInterceptor': 'true' });
 
@@ -114,7 +114,7 @@ describe('HttpService', () => {
 
   it('should call GET method with params, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'get')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.getAsync<OutputTest>('test', { 'Name': 'Tony Stark' });
 
@@ -129,7 +129,7 @@ describe('HttpService', () => {
 
   it('should call GET method with params, disable unauthorized interceptor, hide loading, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'get')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.getAsync<OutputTest>('test',
       { 'Name': 'Tony Stark' },
@@ -151,7 +151,7 @@ describe('HttpService', () => {
 
   it('should call POST method and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'post')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest);
 
@@ -166,7 +166,7 @@ describe('HttpService', () => {
 
   it('should call POST method with hide loading, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'post')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest, null, { 'HideLoading': 'true' });
 
@@ -182,7 +182,7 @@ describe('HttpService', () => {
   });
 
   it('should call POST method and return error', () => {
-    const httpSpy = spyOn<HttpClient>(httpClient, 'post').and.returnValue(Observable.throw(responseErrorMock));
+    const httpSpy = spyOn<HttpClient>(httpClient, 'post').and.returnValue(observableThrowError(responseErrorMock));
 
     const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest);
 
@@ -197,7 +197,7 @@ describe('HttpService', () => {
 
   it('should call POST method with disable unauthorized interceptor, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'post')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest, null, { 'DisableUnauthorizedInterceptor': 'true' });
 
@@ -214,7 +214,7 @@ describe('HttpService', () => {
 
   it('should call POST method with params, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'post')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest, { 'Name': 'Tony Stark' });
 
@@ -231,7 +231,7 @@ describe('HttpService', () => {
 
   it('should call POST method with params, disable unauthorized interceptor, hide loading, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'post')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.postAsync<InputTest, OutputTest>('test', requestInputTest,
       { 'Name': 'Tony Stark' },
@@ -255,7 +255,7 @@ describe('HttpService', () => {
 
   it('should call PUT method with model and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest);
 
@@ -270,7 +270,7 @@ describe('HttpService', () => {
 
   it('should call PUT method with model and hide loading, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest, null, { 'HideLoading': 'true' });
 
@@ -286,7 +286,7 @@ describe('HttpService', () => {
   });
 
   it('should call PUT with model method and return error', () => {
-    const httpSpy = spyOn<HttpClient>(httpClient, 'put').and.returnValue(Observable.throw(responseErrorMock));
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put').and.returnValue(observableThrowError(responseErrorMock));
 
     const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest);
 
@@ -301,7 +301,7 @@ describe('HttpService', () => {
 
   it('should call PUT method with model and disable unauthorized interceptor, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     // tslint:disable-next-line:max-line-length
     const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest, null, { 'DisableUnauthorizedInterceptor': 'true' });
@@ -319,7 +319,7 @@ describe('HttpService', () => {
 
   it('should call PUT method with model and params, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     // tslint:disable-next-line:max-line-length
     const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest, { 'Name': 'Tony Stark' });
@@ -337,7 +337,7 @@ describe('HttpService', () => {
 
   it('should call PUT method with model, params, disable unauthorized interceptor, hide loading, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     // tslint:disable-next-line:max-line-length
     const result = service.putModelAsync<InputTest, OutputTest>('test', requestInputTest,
@@ -361,7 +361,7 @@ describe('HttpService', () => {
 
   it('should call PUT method and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.putAsync<OutputTest>('test');
 
@@ -376,7 +376,7 @@ describe('HttpService', () => {
 
   it('should call PUT method with hide loading, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.putAsync<OutputTest>('test', null, { 'HideLoading': 'true' });
 
@@ -391,7 +391,7 @@ describe('HttpService', () => {
   });
 
   it('should call PUT method and return error', () => {
-    const httpSpy = spyOn<HttpClient>(httpClient, 'put').and.returnValue(Observable.throw(responseErrorMock));
+    const httpSpy = spyOn<HttpClient>(httpClient, 'put').and.returnValue(observableThrowError(responseErrorMock));
 
     const result = service.putAsync<OutputTest>('test');
 
@@ -406,7 +406,7 @@ describe('HttpService', () => {
 
   it('should call PUT method with hide loading, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.putAsync<OutputTest>('test', null, { 'DisableUnauthorizedInterceptor': 'true' });
 
@@ -422,7 +422,7 @@ describe('HttpService', () => {
 
   it('should call PUT method with params, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.putAsync<OutputTest>('test', { 'Name': 'Tony Stark' });
 
@@ -438,7 +438,7 @@ describe('HttpService', () => {
 
   it('should call PUT method with params, disable unauthorized interceptor, hide loading and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'put')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.putAsync<OutputTest>('test',
       { 'Name': 'Tony Stark' },
@@ -460,7 +460,7 @@ describe('HttpService', () => {
 
   it('should call DELETE method and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.deleteAsync<OutputTest>('test');
 
@@ -475,7 +475,7 @@ describe('HttpService', () => {
 
   it('should call DELETE method with hide loading, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.deleteAsync<OutputTest>('test', null, { 'HideLoading': 'true' });
 
@@ -489,7 +489,7 @@ describe('HttpService', () => {
   });
 
   it('should call DELETE method and return error', () => {
-    const httpSpy = spyOn<HttpClient>(httpClient, 'delete').and.returnValue(Observable.throw(responseErrorMock));
+    const httpSpy = spyOn<HttpClient>(httpClient, 'delete').and.returnValue(observableThrowError(responseErrorMock));
 
     const result = service.deleteAsync<OutputTest>('test');
 
@@ -504,7 +504,7 @@ describe('HttpService', () => {
 
   it('should call DELETE method with disable unauthorized interceptor, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.deleteAsync<OutputTest>('test', null, { 'DisableUnauthorizedInterceptor': 'true' });
 
@@ -519,7 +519,7 @@ describe('HttpService', () => {
 
   it('should call DELETE method with params, and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.deleteAsync<OutputTest>('test', { 'Name': 'Tony Stark' });
 
@@ -534,7 +534,7 @@ describe('HttpService', () => {
 
   it('should call DELETE method with params, disable unauthorized interceptor, hide loading and return success', () => {
     const httpSpy = spyOn<HttpClient>(httpClient, 'delete')
-      .and.returnValue(Observable.from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
+      .and.returnValue(from<ValidationResultModel<OutputTest>>([responseSuccessForRequestMock]));
 
     const result = service.deleteAsync<OutputTest>('test',
       { 'Name': 'Tony Stark' },

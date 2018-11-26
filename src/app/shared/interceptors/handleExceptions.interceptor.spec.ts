@@ -3,8 +3,7 @@ import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { ValidationResultModel } from '../http/validationResult.model';
 import { LocalStorageService } from '../storage/implementations/localStorage/localStorage.service';
 import { TranslationService } from '../i18n/service/implementations/translation.service';
-import { TranslationPathEnum } from '../i18n/resources/translationPath.enum';
-import { TranslationLocaleEnum } from '../i18n/resources/translationLocale.enum';
+import { Observable } from 'rxjs';
 
 describe('HandleExceptionsService', () => {
   let service: HandleExceptionsService;
@@ -27,16 +26,19 @@ describe('HandleExceptionsService', () => {
       status: 400
     });
     const next: any = {
-      handle: () => ({
-        catch: (callback: Function) => callback(httpError)
-      })
+      handle: () => {
+        return Observable.create((subscriber) => {
+          subscriber.error(httpError);
+        });
+      }
     };
     const requestMock = new HttpRequest('GET', '/test');
 
-    service.intercept(requestMock, next).toPromise()
-      .catch(error => {
+    service.intercept(requestMock, next).subscribe({
+      error(error) {
         expect(error).toEqual(backendCustomException);
-      });
+      }
+    });
 
   });
 
@@ -45,16 +47,20 @@ describe('HandleExceptionsService', () => {
       status: 500
     });
     const next: any = {
-      handle: () => ({
-        catch: (callback: Function) => callback(httpError)
-      })
+      handle: () => {
+        return Observable.create((subscriber) => {
+          subscriber.error(httpError);
+        });
+      }
     };
     const requestMock = new HttpRequest('GET', '/test');
 
-    service.intercept(requestMock, next).toPromise()
-      .catch(error => {
+    service.intercept(requestMock, next).subscribe({
+      error(error) {
         expect(error).toEqual(new ValidationResultModel('Unexpected error', null, 500));
-      });
+      }
+    });
+
   });
 
   it('should be in catch, response status 404 (Not Found)', () => {
@@ -62,15 +68,18 @@ describe('HandleExceptionsService', () => {
       status: 404
     });
     const next: any = {
-      handle: () => ({
-        catch: (callback: Function) => callback(httpError)
-      })
+      handle: () => {
+        return Observable.create((subscriber) => {
+          subscriber.error(httpError);
+        });
+      }
     };
     const requestMock = new HttpRequest('GET', '/test');
 
-    service.intercept(requestMock, next).toPromise()
-      .catch(error => {
+    service.intercept(requestMock, next).subscribe({
+      error(error) {
         expect(error).toEqual(new ValidationResultModel('Please contact us', null, 404));
-      });
+      }
+    });
   });
 });

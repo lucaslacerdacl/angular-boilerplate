@@ -1,5 +1,6 @@
+
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { ValidationResultModel } from '../http/validationResult.model';
-import { Observable } from 'rxjs/Observable';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { ITranslationService } from '../i18n/service/interfaces/ITranslationService';
@@ -14,9 +15,10 @@ export class CheckConnectionService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!navigator.onLine) {
       const validationResult = new ValidationResultModel();
-      // tslint:disable-next-line:max-line-length
-      validationResult.message = this._ITranslationService.getResource(TranslationPathEnum.interceptorsCheckConnection, 'ConnectionError', TranslationLocaleEnum.enUS);
-      return Observable.throw(validationResult);
+      const translationPath = TranslationPathEnum.interceptorsCheckConnection;
+      const translatedMessage = this._ITranslationService.getResource(translationPath, 'ConnectionError', TranslationLocaleEnum.enUS);
+      validationResult.message = translatedMessage;
+      return observableThrowError(validationResult);
     }
     return next.handle(req);
   }
