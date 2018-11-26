@@ -1,5 +1,5 @@
 import { ValidationResultModel } from '../validationResult.model';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 export interface IHttpService {
   // tslint:disable-next-line:max-line-length

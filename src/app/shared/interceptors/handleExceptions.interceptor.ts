@@ -1,7 +1,9 @@
+
+import { throwError as observableThrowError, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Injectable, Inject } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
+
 import { ValidationResultModel } from '../http/validationResult.model';
 import { ITranslationService } from '../i18n/service/interfaces/ITranslationService';
 import { TranslationPathEnum } from '../i18n/resources/translationPath.enum';
@@ -14,11 +16,11 @@ export class HandleExceptionsService implements HttpInterceptor {
 
   private handleExceptionByStatusCode(response: HttpErrorResponse): ValidationResultModel<any> {
     if (response.status >= 500) {
-        // tslint:disable-next-line:max-line-length
-        const message = this._ITranslationService.getResource(TranslationPathEnum.interceptorsHandleExceptions, 'UnexpectedError', TranslationLocaleEnum.enUS);
-        return new ValidationResultModel<any>(message, null, 500);
+      const translationPath = TranslationPathEnum.interceptorsHandleExceptions;
+      const message = this._ITranslationService.getResource(translationPath, 'UnexpectedError', TranslationLocaleEnum.enUS);
+      return new ValidationResultModel<any>(message, null, 500);
     } else {
-        return this.formatedExceptionResponse(response);
+      return this.formatedExceptionResponse(response);
     }
   }
 
@@ -36,15 +38,14 @@ export class HandleExceptionsService implements HttpInterceptor {
   }
 
   private formatMessage(message?: string): string {
-    // tslint:disable-next-line:max-line-length
-    return message ? message : this._ITranslationService.getResource(TranslationPathEnum.interceptorsHandleExceptions, 'PleaseContactUs', TranslationLocaleEnum.enUS);
+    const translationPath = TranslationPathEnum.interceptorsHandleExceptions;
+    return message ? message : this._ITranslationService.getResource(translationPath, 'PleaseContactUs', TranslationLocaleEnum.enUS);
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req)
-      .catch((error: HttpErrorResponse) => {
-        const formatedExceptionResponse = this.handleExceptionByStatusCode(error);
-        return Observable.throw(formatedExceptionResponse);
-      });
+    return next.handle(req).pipe(catchError((error: HttpErrorResponse) => {
+      const formatedExceptionResponse = this.handleExceptionByStatusCode(error);
+      return observableThrowError(formatedExceptionResponse);
+    }));
   }
 }

@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+
 import { HttpRequest } from '@angular/common/http';
 import { CheckConnectionService } from './checkConnection.interceptor';
 import { ValidationResultModel } from '../http/validationResult.model';
@@ -27,11 +27,12 @@ describe('CheckConnectionService', () => {
     const validationResult = new ValidationResultModel();
     validationResult.message = 'A connection error has occurred! Make sure you are connected on the internet!';
 
-    const result = service.intercept(requestMock, next);
+    try {
+      service.intercept(requestMock, next);
+    } catch (error) {
+      expect(error).toEqual(validationResult);
+    }
 
-    expect(result).toEqual(
-      Observable.throw(validationResult)
-    );
     expect(navigatorSpy).toHaveBeenCalled();
   });
 

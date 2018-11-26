@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { ILocalStorageService } from '../storage/interfaces/ILocalStorage';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class SetAuthorizationHeadersService implements HttpInterceptor {

@@ -1,8 +1,9 @@
+
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { UnauthorizedResponseService } from './unauthorizedResponse.interceptor';
 import { HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 
 describe('UnauthorizedResponseService', () => {
   let service: UnauthorizedResponseService;
@@ -27,36 +28,61 @@ describe('UnauthorizedResponseService', () => {
   });
 
   it('should call unauthorized route', () => {
-    const next: any = { handle: () => ({ catch: (callback: Function) => callback({ status: 401 }) }) };
+    const next: any = {
+      handle: () => {
+        return Observable.create((subscriber) => {
+          subscriber.error({ status: 401 });
+        });
+      }
+    };
+
     const requestMock = new HttpRequest('GET', '/test');
 
-    service.intercept(requestMock, next);
-
-    expect(cleanLocalStorageSpy).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalledWith(['/']);
+    service.intercept(requestMock, next).subscribe({
+      error(err) {
+        expect(cleanLocalStorageSpy).toHaveBeenCalled();
+        expect(router.navigate).toHaveBeenCalledWith(['/']);
+        expect(err).toEqual({ status: 401 });
+      }
+    });
   });
 
   it('should call unauthenticated route', () => {
-    const next: any = { handle: () => ({ catch: (callback: Function) => callback({ status: 403 }) }) };
+    const next: any = {
+      handle: () => {
+        return Observable.create((subscriber) => {
+          subscriber.error({ status: 403 });
+        });
+      }
+    };
+    const requestMock = new HttpRequest('GET', '/test');
+
+    service.intercept(requestMock, next).subscribe({
+      error(err) {
+        expect(cleanLocalStorageSpy).toHaveBeenCalled();
+        expect(router.navigate).toHaveBeenCalledWith(['/']);
+        expect(err).toEqual({ status: 403 });
+      }
+    });
+  });
+
+  it('should route with error status code', () => {
+    const next: any = {
+      handle: () => {
+        return Observable.create((subscriber) => {
+          subscriber.error({ status: 404 });
+        });
+      }
+    };
     const requestMock = new HttpRequest('GET', '/test');
 
     service.intercept(requestMock, next);
 
-    expect(cleanLocalStorageSpy).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalledWith(['/']);
-  });
-
-  it('should route with error status code', () => {
-    const next: any = { handle: () => ({ catch: (callback: Function) => callback({ status: 404 }) }) };
-    const requestMock = new HttpRequest('GET', '/test');
-
-    const interceptorResponse = service.intercept(requestMock, next);
-
-    expect(router.navigate).toHaveBeenCalledTimes(0);
-    expect(cleanLocalStorageSpy).toHaveBeenCalledTimes(0);
-    expect(interceptorResponse).toEqual(
-      Observable.throw({ status: 404 })
-    );
+    service.intercept(requestMock, next).subscribe({
+      error(err) {
+        expect(err).toEqual({ status: 404 });
+      }
+    });
   });
 
   it('should call unauthorized route but with interceptor disabled', () => {

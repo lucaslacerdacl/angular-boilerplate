@@ -1,12 +1,10 @@
-import 'rxjs/add/operator/finally';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
 import { SetLoadingService } from './setLoading.interceptor';
 import { HttpRequest, HttpHeaders } from '@angular/common/http';
 import { NotificationService } from '../notification/implementations/swal/notification.swal.service';
 import { INotificationLoading } from '../notification/interfaces/INotificationLoading';
 import { LocalStorageService } from '../storage/implementations/localStorage/localStorage.service';
 import { TranslationService } from '../i18n/service/implementations/translation.service';
+import { Observable } from 'rxjs';
 
 describe('SetLoadingService', () => {
   let notification: NotificationService;
@@ -37,15 +35,20 @@ describe('SetLoadingService', () => {
 
   it('should be show loading', () => {
     const next: any = {
-      handle: () => ({
-        finally: (callback: Function) => callback()})
+      handle: () => {
+        return Observable.create(subscriber => {
+          subscriber.complete();
+        });
+      }
     };
     const requestMock = new HttpRequest('GET', '/test');
     const closeLoadingSpy = spyOn<INotificationLoading>(notification, 'closeLoading');
 
-    service.intercept(requestMock, next);
+    service.intercept(requestMock, next).subscribe(() => {
+      expect(closeLoadingSpy).toHaveBeenCalled();
+    });
 
     expect(openLoadingSpy).toHaveBeenCalled();
-    expect(closeLoadingSpy).toHaveBeenCalled();
+
   });
 });

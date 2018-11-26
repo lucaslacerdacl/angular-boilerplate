@@ -1,10 +1,8 @@
 import { INotificationLoading } from '../notification/interfaces/INotificationLoading';
-import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import 'rxjs/add/operator/finally';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Injectable()
 export class SetLoadingService implements HttpInterceptor {
@@ -16,10 +14,9 @@ export class SetLoadingService implements HttpInterceptor {
       return next.handle(req);
     } else {
       this._INotificationLoading.openLoading();
-      return next.handle(req)
-      .finally(() => {
+      return next.handle(req).pipe(finalize(() => {
         this._INotificationLoading.closeLoading();
-      });
+      }));
     }
   }
 }

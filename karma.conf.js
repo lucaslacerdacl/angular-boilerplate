@@ -4,25 +4,23 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular/cli'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('@angular/cli/plugins/karma'),
+      require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-junit-reporter')
     ],
     client:{
       clearContext: false
     },
     coverageIstanbulReporter: {
-      reports: [ 'cobertura', 'html'],
+      dir: require('path').join(__dirname, 'coverage'), reports: [ 'cobertura', 'html'],
       fixWebpackSourcePaths: true
     },    
-    angularCli: {
-      environment: 'dev'
-    },
+    
     reporters: ['progress', 'kjhtml', 'junit'],
     junitReporter: {
       outputDir: 'coverage',
