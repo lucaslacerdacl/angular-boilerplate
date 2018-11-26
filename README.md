@@ -1,7 +1,7 @@
 ![Logo of the project](./src/assets/images/logo.sample.png)
 
 # Angular Boilerplate &middot; [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build status](https://lucaslacerdacl.visualstudio.com/angular-boilerplate/_apis/build/status/angular-boilerplate)](https://lucaslacerdacl.visualstudio.com/angular-boilerplate/_build/latest?definitionId=1) [![codecov](https://codecov.io/gh/LucasLacerdaCL/angular-boilerplate/branch/master/graph/badge.svg?token=PpAFPJqwzf)](https://codecov.io/gh/LucasLacerdaCL/angular-boilerplate)
-> This is a boilerplate in Angular 5 to give agility in front-end development.
+> This is a boilerplate in Angular 7 to give agility in front-end development.
 
 This repository contains http, interceptors, guards, notification and storage services.
 
